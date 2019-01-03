@@ -53,3 +53,26 @@ Untuk mendownload NPM module yang akan digunakan oleh components atau modules, k
 
 Jika hanya ingin meng-compile script atau style klien, ketik:\
 *grunt install-client:client-name*
+
+------
+
+**03. Add/Update Core**
+
+Pada folder “templates/core” (core with underscore), terdapat folder js untuk file JavaScript (file.js), dan SCSS untuk file stylesheet atau SCSS (file.scss). Letakan script atau style Anda pada masing-masing folder sesuai tipe filenya.
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-core.png)
+
+Anda bisa memecah menjadi beberapa script/style agar kode tidak terkumpul menjadi satu file. Hal tersebut juga agar memudahkan pencarian kode jika ada error atau dapat melakukan pembagian kode jika bekerja dalam tim.
+
+-----
+
+**04. Add/Update Helpers**
+
+Pada folder “templates/helpers”, buat folder baru dengan nama helper yang ingin dibuat. Didalam folder helper yang dibuat, Anda dapat menambahkan tipe dari helper tersebut. Sebagai contoh, jika helper yang Anda buat ini adalah helper baru, Anda dapat membuat folder dengan nama “type-1”. Lurik memungkinkan Anda mempunyai helper dengan nama yang sama namun mempunyai tindakan yang berbeda (disesuaikan dengan template yang akan dibuat).
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-helpers.png)
+
+Setelah itu buat file script.js untuk file JavaScript, dan style.scss untuk file stylesheet atau SCSS. Karena sifatnya yang hanya sebagai pembantu script lain, sehingga hanya disediakan satu file saja (tidak seperti Core, Components dan Modules).
+
+**Catatan:**\
+Jika dalam satu template memakai dua tipe helper dari nama yang sama, bagaimana cara membedakannya? Caranya adalah dengan penamaan class nya, contohnya untuk helper tipe 1 diberikan class dengan nama **.U--helper.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
