@@ -1,30 +1,30 @@
 # Lurik
-:: A configurational framework for creating a modular web static templates.
+:: A configurational framework for creating a modular static web templates.
 
 -----
 
-Pembuatan Lurik bertujuan agar kode-kode HTML dan CSS yang dibuat terstruktur dengan baik dengan pembagian nama template berdasarkan tipe template-nya yaitu komponen atau modul, dan membuat kode-kode tersebut dapat digunakan kembali dengan mudah (reusable).
+**Lurik** dibuat dengan tujuan untuk memudahkan pembuatan website static dibuat secara modular yang memungkinkan kode-kode terstruktur dengan baik dan dapat digunakan kembali (*reusable*) tanpa harus mencari dan *copy-paste* kode-kode yang sudah dibuat sebelumnya.
 
-Lurik terdiri dari 4 bagian yaitu Core, Helpers, Components, dan Modules.
+Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*.
 
-- **Core**, Script atau/dan Stylesheet yang perlu di-load pertama kali. Misalnya CSS Normalize, jQuery, Twitter Bootstrap, Foundation, dsb.
+- **Core**, *Script* atau/dan *Stylesheet* yang perlu dijalankan pertama kali. Misalnya CSS Normalize, jQuery, Twitter Bootstrap, Foundation, dan sebagainya.
 
-- **Helpers**, Script atau/dan Stylesheet yang sifatnya bantuan atau bisa disebut juga dengan plugins.
+- **Helpers**, *Script* atau/dan *Stylesheet* yang sifatnya bantuan atau bisa disebut juga dengan *plugins*.
 
-- **Components**, Bagian-bagian terkecil dari sebuah templates yang dapat digunakan berulang kali sesuai kebutuhan (reusable).
+- **Components**, Bagian-bagian terkecil dari sebuah *templates* yang dapat digunakan berulang kali sesuai kebutuhan (*reusable*).
 
-- **Modules**, Kumpulan templates yang dibangun berdasarkan komponen-komponen yang sudah dibuat.
+- **Modules**, Modul-modul kecil yang dibuat untuk membentuk sebuah *template*. Modul dapat menggunakan komponen-komponen yang sudah dibuat untuk membangun sebuah *layout*.
 
-Lurik dibuat dengan bantuan GruntJS untuk eksekusi konfigurasinya dan NodeJS untuk instalasi module yang dibutuhkan untuk membuat template.
+Lurik dibuat dengan bantuan [GruntJS](https://gruntjs.com/) untuk eksekusi konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi module yang dibutuhkan untuk membuat template.
 
 -----
 
 **00. Requirements**
 
 Sebelum install Lurik, pastikan Anda sudah menginstall:
-- NodeJS
-- Grunt
-- SASS
+- [NodeJS](https://nodejs.org/en/)
+- [Grunt](https://gruntjs.com/)
+- [SASS](https://sass-lang.com/)
 
 -----
 
