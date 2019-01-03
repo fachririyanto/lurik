@@ -1,0 +1,44 @@
+.M--posts.type--2 {
+    .posts__list {
+        margin: 0;
+        padding: 0 8px;
+        .post {
+            padding: 4px 12px;
+        }
+    }
+    .posts__nav {
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        z-index: 3;
+        height: 0;
+        .nav__button {
+            display: block;
+            margin: -40px 0 0;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border: 0;
+            outline: 0;
+            @include border-radius(40px);
+            @include box-shadow(0, 0, 8px, rgba(0,0,0,.3));
+            -webkit-transition: opacity .3s;
+            transition: opacity .3s;
+            &.nav__prev {
+                float: left;
+            }
+            &.nav__next {
+                float: right;
+            }
+            &.disabled {
+                @include opacity(0);
+            }
+            .material-icons {
+                display: block;
+            }
+        }
+    }
+}

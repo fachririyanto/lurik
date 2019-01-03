@@ -1,0 +1,3 @@
+/**
+ * Setup your core script.
+ */

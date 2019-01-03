@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Lurik - Templates Example</title>
+
+        <!--
+            Using Twitter Bootstrap for speed up development.
+            You also can use another HTML/CSS framework to work with.
+        -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <!-- using Google Font -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700,700i">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+        <!-- load client style, for home template -->
+        <link rel="stylesheet" href="assets/starter/css/home.css">
+    </head>
+
+    <body>
+        <div class="site" id="page">
+
+            <!-- header module -->
+            <header class="M--header type--1" id="M--header">
+                <div class="container">
+                    <h1 class="header__title">LURIK</h1>
+                    <p class="header__tagline">
+                        A configurational framework for creating a modular web static templates.
+                    </p>
+                </div>
+            </header>
+
+            <!-- posts module - news -->
+            <section class="M--news M--posts type--1 module--container -bg-gray" id="M--news">
+                <div class="container">
+                    <header class="C--block-header type--1">
+                        <h3 class="header__title">News</h3>
+                    </header>
+                    <div class="posts__list row">
+                        <article class="post col-sm-4 C--post type--1 -has-shadow -rounded" id="post--1">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/1.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">From the Top: Adobe Illustrator for Beginners</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post col-sm-4 C--post type--1 -has-shadow -rounded" id="post--2">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/2.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">Create a Modern Glitch Animation in After Effects</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post col-sm-4 C--post type--1 -has-shadow -rounded" id="post--3">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/3.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">Learn PHP for WordPress</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post col-sm-4 C--post type--1 -has-shadow -rounded" id="post--4">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/4.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">How to Design a Project Proposal in Adobe InDesign</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post col-sm-4 C--post type--1 -has-shadow -rounded" id="post--5">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/5.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">5 CSS Projects: Image Hover Effects</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post col-sm-4 C--post type--1 -has-shadow -rounded" id="post--6">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/6.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">Typography Poster Design in Adobe Photoshop</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- posts module - articles -->
+            <section class="M--articles M--posts type--2 module--container" id="M--articles">
+                <div class="container">
+                    <header class="C--block-header type--1">
+                        <h3 class="header__title">Articles</h3>
+                    </header>
+                    <div class="posts__list owl-carousel row">
+                        <article class="post C--post type--1 -has-shadow -rounded" id="post--1">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/1.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">From the Top: Adobe Illustrator for Beginners</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post C--post type--1 -has-shadow -rounded" id="post--2">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/2.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">Create a Modern Glitch Animation in After Effects</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post C--post type--1 -has-shadow -rounded" id="post--3">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/3.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">Learn PHP for WordPress</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post C--post type--1 -has-shadow -rounded" id="post--4">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/4.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">How to Design a Project Proposal in Adobe InDesign</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post C--post type--1 -has-shadow -rounded" id="post--5">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/5.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">5 CSS Projects: Image Hover Effects</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                        <article class="post C--post type--1 -has-shadow -rounded" id="post--6">
+                            <div class="post__card">
+                                <figure class="post__thumbnail">
+                                    <span class="thumbnail__image U--overlay-layout U--background-cover" style="background-image: url(public/images/post/6.jpg)"></span>
+                                    <span class="thumbnail__ratio"></span>
+                                </figure>
+                                <div class="post__detail">
+                                    <h3 class="post__title">Typography Poster Design in Adobe Photoshop</h3>
+                                    <span class="post__date">16 December 2018</span>
+                                </div>
+                                <a href="#" class="post__permalink U--overlay-layout"></a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- footer module -->
+            <footer class="M--footer type--1" id="M--footer">
+                <div class="container">
+                    <p class="footer__copyrights">
+                        &copy; 2018 Lurik. By <a href="https://fachririyanto.com">Fachri Riyanto</a>.
+                    </p>
+                </div>
+            </footer>
+
+        </div>
+
+        <!-- using jQuery as a JS library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+        <!-- load client script, for home template -->
+        <script src="assets/starter/js/home.js" async></script>
+    </body>
+</html>

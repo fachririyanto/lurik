@@ -1,0 +1,53 @@
+/**
+ * Set base font size, because I using rem.
+ */
+html {
+    font-size: 10px;
+}
+
+/**
+ * Reset body content.
+ * @font-family using Google Font.
+ */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.6rem;
+    font-weight: normal;
+    color: $text--color;
+    line-height: 1.725;
+    background: #fff;
+}
+
+/**
+ * Overriding container width.
+ */
+.container {
+    padding: 0;
+    max-width: 960px;
+    @media (max-width: 960px + 32) {
+        padding: 0 16px;
+    }
+}
+
+/**
+ * Module container.
+ */
+.module--container {
+    display: block;
+    position: relative;
+    padding: 48px 0;
+    @media (min-width: $screen--small) {
+        padding: 64px 0;
+    }
+    @media (min-width: $screen--medium) {
+        padding: 80px 0;
+    }
+    @media (min-width: $screen--large) {
+        padding: 100px 0;
+    }
+    &.-bg-gray {
+        background: #f2f2f2;
+    }
+}

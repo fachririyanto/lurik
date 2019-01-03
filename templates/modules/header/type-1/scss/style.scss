@@ -1,0 +1,23 @@
+.M--header.type--1 {
+    display: block;
+    position: relative;
+    padding: 200px 0;
+    .container {
+        max-width: 480px;
+    }
+    .header__title {
+        display: block;
+        margin: 0;
+        font-size: 6rem;
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: 12px;
+        text-align: center;
+    }
+    .header__tagline {
+        display: block;
+        margin: 24px 0 0;
+        font-size: 1.8rem;
+        text-align: center;
+    }
+}
