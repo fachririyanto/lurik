@@ -76,3 +76,90 @@ Setelah itu buat file script.js untuk file JavaScript, dan style.scss untuk file
 
 **Catatan:**\
 Jika dalam satu template memakai dua tipe helper dari nama yang sama, bagaimana cara membedakannya? Caranya adalah dengan penamaan class nya, contohnya untuk helper tipe 1 diberikan class dengan nama **.U--helper.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+
+-----
+
+**05. Add/Update Components**
+
+Pada folder “templates/components”, buat folder baru dengan nama komponen yang akan dibuat. Sama seperti helper, komponen dapat memiliki bermacam-macam tipe. Perbedaan dengan helper adalah komponen dapat memiliki lebih dari satu file untuk masing-masing file JS dan SCSS.
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-components.png)
+
+Selain itu, komponen memiliki file wajib yaitu package.js. File tersebut adalah konfigurasi dari komponen yang Anda buat. Di file tersebut anda akan me-register script atau style mana saja yang akan di-load, dan dapat diurutkan juga kode mana yang akan dijalankan duluan serta Anda juga dapat meregister modul NPM yang akan dipakai oleh komponen.
+
+Contoh package.js:
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-components-package.png)
+
+Penjelasan:
+
+- **about: { Object } - optional**\
+Digunakan untuk deskripsi tentang komponen yang dibuat. Saat ini, option about belum digunakan selain hanya untuk deskripsi.
+
+- **dependencies: array**\
+List modul NPM yang akan dipakai, cukup isikan dengan nama modulnya.\
+Contoh: [ “jquery”, “owl.carousel”, … ]
+
+- **scripts: { Object }**\
+Scripts sendiri terbagi lagi menjadi 3 bagian, yaitu plugins, helpers dan main.
+
+  - **plugins: array**\
+Berisi list path script dari modul NPM yang dipakai.\
+Contoh: [ “node_modules/jquery/dist/jquery.min.js”, … ]
+
+  - **helpers: array of Object**\
+Helper yang dipakai oleh komponen yang Anda buat.\
+Contoh: [\
+{ name: “hello”, type: “type-1” },\
+...\
+]
+
+  - **main: array**\
+Digunakan untuk me-register script yang sudah Anda buat. Cukup mengisi nama file-nya saja karena pathnya akan otomatis mengarah ke folder “js”.\
+Contoh: [ “script.js”, … ]\
+Urutan index array mempengaruhi urutan untuk dijalankan pertama kali.
+
+- **styles: { Object }**\
+Sama seperti scripts, styles juga memiliki 3 bagian yang sama, cara isinya pun sama hanya berbeda tipe filenya saja.
+
+\
+**Catatan:**\
+Sama dengan helper, jika dalam satu template memakai dua tipe komponen dari nama yang sama, berikan penamaan seperti .C--component-name.type--1, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+
+-----
+
+**06. Add/Update Modules**
+
+Pada folder “templates/modules”, buat folder baru dengan nama modul yang akan dibuat. Sama seperti komponen, modul dapat memiliki beberapa tipe untuk setiap modulnya.
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-modules.png)
+
+Perbedaan modul dan komponen terdapat pada file package.js nya.
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-modules-package.png)
+
+Pada modul, terdapat option components. Yang digunakan untuk menentukan komponen mana saja yang akan dipakai sebagai komponen default untuk modul yang sedang dibuat.
+
+- **components: array of Object**\
+Komponen yang dipakai oleh modul yang Anda buat.\
+Contoh: [ { name: “post”, type: “type-1” }, … ]
+
+\
+**Catatan:**\
+Sama dengan komponen, jika dalam satu template memakai dua tipe modul dari nama yang sama, berikan penamaan seperti .M--module-name.type--1, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+
+-----
+
+**07. Registering Scripts**
+
+Setelah membuat core, helpers, components dan modules, hal berikutnya yang perlu dilakukan adalah melakukan register scripts. Pada folder “settings/clients”, buat file baru dengan extension .js, seperti berikut:
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings.png)
+
+Dan berikut contoh konfigurasi untuk me-register script nya:
+
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings-package.png)
+
+Pada option templates, terdapat option home, global dan other. Option tersebut kita yang menentukan sendiri penamaannya sesuai dengan template yang ingin dibuat. Sebagai contoh option home, pada halaman atau template home, Anda butuh komponen dan modul apa saja yang dibutuhkan untuk membuat layoutnya.
+
+Option-option tersebut akan membuat masing-masing 1 file CSS dan JS, hasilnya adalah home.js, home.css, global.js, global.css, other.js, dan other.js. Sehingga memungkinkan Anda me-load komponen dan modul sesuai dengan kebutuhan template-nya saja.
