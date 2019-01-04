@@ -1,7 +1,7 @@
 {
   "name": "lurik",
   "version": "1.0.0",
-  "description": "A configurational framework for creating a modular web static templates.",
+  "description": "A configurational framework for creating a modular static web templates.",
   "main": "app.js",
   "scripts": {},
   "author": "Fachri Riyanto",

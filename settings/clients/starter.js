@@ -5,7 +5,7 @@ module.exports = {
         version: "1.0.0",
         author: {
             name: "Fachri Riyanto",
-            url: "https://fachririyanto@gmail.com",
+            url: "https://fachririyanto.com",
             email: "fachririyanto@gmail.com"
         }
     },
