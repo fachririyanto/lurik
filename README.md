@@ -158,7 +158,7 @@ Setelah membuat core, helpers, components dan modules, hal berikutnya yang perlu
 
 Dan berikut contoh konfigurasi untuk me-register script nya:
 
-![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings-package.png)
+![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings-config.png)
 
 Pada option templates, terdapat option home, global dan other. Option tersebut kita yang menentukan sendiri penamaannya sesuai dengan template yang ingin dibuat. Sebagai contoh option home, pada halaman atau template home, Anda butuh komponen dan modul apa saja yang dibutuhkan untuk membuat layoutnya.
 
