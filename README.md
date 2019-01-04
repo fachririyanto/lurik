@@ -3,17 +3,17 @@
 
 -----
 
-**Lurik** dibuat dengan tujuan untuk memudahkan pembuatan website static dibuat secara modular yang memungkinkan kode-kode terstruktur dengan baik dan dapat digunakan kembali (*reusable*) tanpa harus mencari dan *copy-paste* kode-kode yang sudah dibuat sebelumnya.
+**Lurik** digunakan untuk memudahkan pembuatan website static yang memungkinkan dibuat secara modular sehingga kode-kode terstruktur dengan baik dan dapat digunakan kembali (*reusable*) tanpa harus mencari dan *copy-paste* kode-kode yang sudah dibuat sebelumnya, hanya perlu konfigurasi.
 
 Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*.
 
-- **Core**, *Script* atau/dan *Stylesheet* yang perlu dijalankan pertama kali. Misalnya CSS Normalize, jQuery, Twitter Bootstrap, Foundation, dan sebagainya.
+- **Core**, *Script* atau/dan *Stylesheet* yang dijalankan pertama kali yang mungkin akan dipakai di setiap halaman website. Misalnya CSS Normalize, jQuery, Twitter Bootstrap, Foundation, dan sebagainya.
 
 - **Helpers**, *Script* atau/dan *Stylesheet* yang sifatnya bantuan atau bisa disebut juga dengan *plugins*.
 
-- **Components**, Bagian-bagian terkecil dari sebuah *templates* yang dapat digunakan berulang kali sesuai kebutuhan (*reusable*).
+- **Components**, Bagian-bagian terkecil dari sebuah *templates* yang dapat digunakan berulang kali sesuai kebutuhan (*reusable*) untuk membentuk suatu modul. Contohnya *avatar*, *textbox*, *checkbox*, *post-item*, *comment-item*, dan sebagainya.
 
-- **Modules**, Modul-modul kecil yang dibuat untuk membentuk sebuah *template*. Modul dapat menggunakan komponen-komponen yang sudah dibuat untuk membangun sebuah *layout*.
+- **Modules**, Potongan-potongan untuk membentuk sebuah *template*. Contohnya modul *header*, *footer*, *why-us*, dan sebagainya.
 
 Lurik dibuat dengan bantuan [GruntJS](https://gruntjs.com/) untuk eksekusi konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi module yang dibutuhkan untuk membuat template.
 
