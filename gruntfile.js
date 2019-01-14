@@ -29,18 +29,24 @@ module.exports = (grunt) => {
 
             // setup NPM - components
             const components = templates[index].components
+
             for (let i = 0;i < components.length;i++) {
-                // define component path
-                const path = config.templates.components.path + '/' + components[i].name + '/' + components[i].type
+                // get component type
+                let types = components[i].type
 
-                // get module package
-                const package = require('./' + path + '/package.js')
+                for (let a = 0;a < types.length;a++) {
+                    // define component path
+                    const path = config.templates.components.path + '/' + components[i].name + '/' + types[a]
 
-                // add dependencies (NPM)
-                let dependencies = package.npm
-                for (let j = 0;j < dependencies.length;j++) {
-                    if (NPM_list.indexOf(dependencies[j]) === -1) {
-                        NPM_list.push(dependencies[j])
+                    // get module package
+                    const package = require('./' + path + '/package.js')
+
+                    // add dependencies (NPM)
+                    let dependencies = package.npm
+                    for (let j = 0;j < dependencies.length;j++) {
+                        if (NPM_list.indexOf(dependencies[j]) === -1) {
+                            NPM_list.push(dependencies[j])
+                        }
                     }
                 }
             }
@@ -155,65 +161,70 @@ module.exports = (grunt) => {
         // define components
         let components = templates[template].components
         for (let i = 0;i < components.length;i++) {
-            // define component path
-            const subpath = config.templates.components.path + '/' + components[i].name + '/' + components[i].type
+            // get component type
+            let types = components[i].type
 
-            // get component package
-            const subpackage = require('./' + subpath + '/package.js')
+            for (let a = 0;a < types.length;a++) {
+                // define component path
+                const subpath = config.templates.components.path + '/' + components[i].name + '/' + types[a]
 
-            // 03.1. setup component plugins - SCSS
-            plugins = subpackage.styles.plugins
-            for (let j = 0;j < plugins.length;j++) {
-                if (SCSS_plugins.indexOf(plugins[j]) === -1) {
-                    SCSS_plugins.push(plugins[j])
+                // get component package
+                const subpackage = require('./' + subpath + '/package.js')
+
+                // 03.1. setup component plugins - SCSS
+                plugins = subpackage.styles.plugins
+                for (let j = 0;j < plugins.length;j++) {
+                    if (SCSS_plugins.indexOf(plugins[j]) === -1) {
+                        SCSS_plugins.push(plugins[j])
+                    }
                 }
-            }
 
-            // 03.1. setup component plugins - JS
-            plugins = subpackage.scripts.plugins
-            for (let j = 0;j < plugins.length;j++) {
-                if (JS_plugins.indexOf(plugins[j]) === -1) {
-                    JS_plugins.push(plugins[j])
+                // 03.1. setup component plugins - JS
+                plugins = subpackage.scripts.plugins
+                for (let j = 0;j < plugins.length;j++) {
+                    if (JS_plugins.indexOf(plugins[j]) === -1) {
+                        JS_plugins.push(plugins[j])
+                    }
                 }
-            }
 
-            // 03.2. setup component helpers - SCSS
-            helpers = subpackage.styles.helpers
-            for (let j = 0;j < helpers.length;j++) {
-                // define helper path
-                const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/style.scss'
-                if (SCSS_helpers.indexOf(helperPath) === -1) {
-                    SCSS_helpers.push(helperPath)
+                // 03.2. setup component helpers - SCSS
+                helpers = subpackage.styles.helpers
+                for (let j = 0;j < helpers.length;j++) {
+                    // define helper path
+                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/style.scss'
+                    if (SCSS_helpers.indexOf(helperPath) === -1) {
+                        SCSS_helpers.push(helperPath)
+                    }
                 }
-            }
 
-            // 03.2. setup component helpers - JS
-            helpers = subpackage.scripts.helpers
-            for (let j = 0;j < helpers.length;j++) {
-                // define helper path
-                const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/script.js'
-                if (JS_helpers.indexOf(helperPath) === -1) {
-                    JS_helpers.push(helperPath)
+                // 03.2. setup component helpers - JS
+                helpers = subpackage.scripts.helpers
+                for (let j = 0;j < helpers.length;j++) {
+                    // define helper path
+                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/script.js'
+                    if (JS_helpers.indexOf(helperPath) === -1) {
+                        JS_helpers.push(helperPath)
+                    }
                 }
-            }
 
-            // 04. setup component assets - SCSS
-            let assets = subpackage.styles.main
-            for (let j = 0;j < assets.length;j++) {
-                // define asset path
-                const assetPath = subpath + '/scss/' + assets[j]
-                if (SCSS_assets.indexOf(assetPath) === -1) {
-                    SCSS_assets.push(assetPath)
+                // 04. setup component assets - SCSS
+                let assets = subpackage.styles.main
+                for (let j = 0;j < assets.length;j++) {
+                    // define asset path
+                    const assetPath = subpath + '/scss/' + assets[j]
+                    if (SCSS_assets.indexOf(assetPath) === -1) {
+                        SCSS_assets.push(assetPath)
+                    }
                 }
-            }
 
-            // 04. setup component assets - JS
-            assets = subpackage.scripts.main
-            for (let j = 0;j < assets.length;j++) {
-                // define asset path
-                const assetPath = subpath + '/js/' + assets[j]
-                if (JS_assets.indexOf(assetPath) === -1) {
-                    JS_assets.push(assetPath)
+                // 04. setup component assets - JS
+                assets = subpackage.scripts.main
+                for (let j = 0;j < assets.length;j++) {
+                    // define asset path
+                    const assetPath = subpath + '/js/' + assets[j]
+                    if (JS_assets.indexOf(assetPath) === -1) {
+                        JS_assets.push(assetPath)
+                    }
                 }
             }
         }

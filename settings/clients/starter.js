@@ -15,7 +15,7 @@ module.exports = {
          */
         home: {
             components: [
-                { name: "post", type: "type-1" }
+                { name: "post", type: [ "type-1" ] }
             ],
             modules: [
                 { name: "header", type: "type-1" },
@@ -47,7 +47,7 @@ module.exports = {
                 js: []
             },
             components: [
-                { name: "post", type: "type-1" }
+                { name: "post", type: [ "type-1" ] }
             ],
             modules: [
                 { name: "header", type: "type-1" },
