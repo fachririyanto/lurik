@@ -27,6 +27,24 @@ module.exports = (grunt) => {
         // loop templates
         for (let index in templates) {
 
+            // setup NPM - components
+            const components = templates[index].components
+            for (let i = 0;i < components.length;i++) {
+                // define component path
+                const path = config.templates.components.path + '/' + components[i].name + '/' + components[i].type
+
+                // get module package
+                const package = require('./' + path + '/package.js')
+
+                // add dependencies (NPM)
+                let dependencies = package.npm
+                for (let j = 0;j < dependencies.length;j++) {
+                    if (NPM_list.indexOf(dependencies[j]) === -1) {
+                        NPM_list.push(dependencies[j])
+                    }
+                }
+            }
+
             // setup NPM - modules
             const modules = templates[index].modules
             for (let i = 0;i < modules.length;i++) {
@@ -36,8 +54,8 @@ module.exports = (grunt) => {
                 // get module package
                 const package = require('./' + path + '/package.js')
 
-                // add dependencies
-                let dependencies = package.dependencies
+                // add dependencies (NPM)
+                let dependencies = package.npm
                 for (let j = 0;j < dependencies.length;j++) {
                     if (NPM_list.indexOf(dependencies[j]) === -1) {
                         NPM_list.push(dependencies[j])
@@ -45,16 +63,15 @@ module.exports = (grunt) => {
                 }
 
                 // setup components
-                let components = []
+                let subcomponents = []
                 if (modules[i].components !== undefined) {
-                    components = modules[i].components
+                    subcomponents = modules[i].components
                 } else {
-                    components = package.components
+                    subcomponents = package.components
                 }
-                components = components.concat(templates[index].components)
-                for (let j = 0;j < components.length;j++) {
+                for (let j = 0;j < subcomponents.length;j++) {
                     // define component path
-                    const subpath = config.templates.components.path + '/' + components[j].name + '/' + components[j].type
+                    const subpath = config.templates.components.path + '/' + subcomponents[j].name + '/' + subcomponents[j].type
 
                     // get component package
                     const subpackage = require('./' + subpath + '/package.js')

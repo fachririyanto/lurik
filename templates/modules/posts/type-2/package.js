@@ -10,7 +10,7 @@ module.exports = {
         },
         version: "1.0.0"
     },
-    dependencies: [
+    npm: [
         "owl.carousel"
     ],
     components: [
