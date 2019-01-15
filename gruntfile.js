@@ -134,7 +134,10 @@ module.exports = (grunt) => {
         const templates = client.templates
 
         // get core
-        const core = templates[template].core
+        let core = client.core
+        if (templates[template].core !== undefined) {
+            core = templates[template].core
+        }
 
         // create SCSS object
         let SCSS = config.compiler.core.scss
