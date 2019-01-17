@@ -12,12 +12,12 @@ module.exports = {
     },
     npm: [],
     scripts: {
-        plugins: [],
+        npm: [],
         helpers: [],
         main: []
     },
     styles: {
-        plugins: [],
+        npm: [],
         helpers: [],
         main: [
             "style.scss"

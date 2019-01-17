@@ -14,10 +14,10 @@ module.exports = {
         "owl.carousel"
     ],
     components: [
-        { name: "block-header", type: "type-1" }
+        { name: "block-header", type: [ "type-1" ] }
     ],
     scripts: {
-        plugins: [
+        npm: [
             "node_modules/owl.carousel/dist/owl.carousel.min.js"
         ],
         helpers: [],
@@ -26,7 +26,7 @@ module.exports = {
         ]
     },
     styles: {
-        plugins: [
+        npm: [
             "node_modules/owl.carousel/dist/assets/owl.carousel.min.css"
         ],
         helpers: [],

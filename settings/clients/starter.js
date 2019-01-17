@@ -9,9 +9,28 @@ module.exports = {
             email: "fachririyanto@gmail.com"
         }
     },
+
+    /**
+     * Core global overriding - for all templates.
+     */
+    core: {
+        scss: [
+            'templates/_core/scss/vendor/css3-mixins.scss',
+            'templates/_core/scss/variable.scss',
+            'templates/_core/scss/utilities.scss',
+            'templates/_core/scss/style.scss'
+        ],
+        js: [
+            'templates/_core/js/script.js'
+        ]
+    },
+
+    /**
+     * Setup templates.
+     */
     templates: {
         /**
-         * Default template.
+         * Home template.
          */
         home: {
             components: [
@@ -35,7 +54,7 @@ module.exports = {
         },
 
         /**
-         * Overriding core.
+         * Overriding core - for specific template.
          * You can reset one of scss of js value or both of them.
          */
         other: {

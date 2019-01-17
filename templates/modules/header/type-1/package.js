@@ -13,7 +13,7 @@ module.exports = {
     npm: [],
     components: [],
     scripts: {
-        plugins: [],
+        npm: [],
         helpers: [
             { name: "hello", type: "type-1" }
         ],
@@ -22,7 +22,7 @@ module.exports = {
         ]
     },
     styles: {
-        plugins: [],
+        npm: [],
         helpers: [],
         main: [
             "style.scss"

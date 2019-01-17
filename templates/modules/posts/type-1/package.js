@@ -12,15 +12,15 @@ module.exports = {
     },
     npm: [],
     components: [
-        { name: "block-header", type: "type-1" }
+        { name: "block-header", type: [ "type-1" ] }
     ],
     scripts: {
-        plugins: [],
+        npm: [],
         helpers: [],
         main: []
     },
     styles: {
-        plugins: [],
+        npm: [],
         helpers: [],
         main: [
             "style.scss"

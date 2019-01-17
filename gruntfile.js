@@ -26,7 +26,6 @@ module.exports = (grunt) => {
 
         // loop templates
         for (let index in templates) {
-
             // setup NPM - components
             const components = templates[index].components
 
@@ -69,11 +68,9 @@ module.exports = (grunt) => {
                 }
 
                 // setup components
-                let subcomponents = []
+                let subcomponents = package.components
                 if (modules[i].components !== undefined) {
                     subcomponents = modules[i].components
-                } else {
-                    subcomponents = package.components
                 }
                 for (let j = 0;j < subcomponents.length;j++) {
                     // define component path
@@ -83,7 +80,7 @@ module.exports = (grunt) => {
                     const subpackage = require('./' + subpath + '/package.js')
 
                     // add dependencies
-                    dependencies = subpackage.dependencies
+                    dependencies = subpackage.npm
                     for (let j = 0;j < dependencies.length;j++) {
                         if (NPM_list.indexOf(dependencies[j]) === -1) {
                             NPM_list.push(dependencies[j])
@@ -147,7 +144,7 @@ module.exports = (grunt) => {
 
         // create SCSS assets object
         let SCSS_assets = []
-        let SCSS_plugins = []
+        let SCSS_NPM = []
         let SCSS_helpers = []
 
         // create JS object
@@ -158,7 +155,7 @@ module.exports = (grunt) => {
 
         // create JS assets object
         let JS_assets = []
-        let JS_plugins = []
+        let JS_NPM = []
         let JS_helpers = []
 
         // define components
@@ -174,24 +171,24 @@ module.exports = (grunt) => {
                 // get component package
                 const subpackage = require('./' + subpath + '/package.js')
 
-                // 03.1. setup component plugins - SCSS
-                plugins = subpackage.styles.plugins
-                for (let j = 0;j < plugins.length;j++) {
-                    if (SCSS_plugins.indexOf(plugins[j]) === -1) {
-                        SCSS_plugins.push(plugins[j])
+                // 03.1. setup component npm - SCSS
+                let npms = subpackage.styles.npm
+                for (let j = 0;j < npms.length;j++) {
+                    if (SCSS_NPM.indexOf(npms[j]) === -1) {
+                        SCSS_NPM.push(npms[j])
                     }
                 }
 
-                // 03.1. setup component plugins - JS
-                plugins = subpackage.scripts.plugins
-                for (let j = 0;j < plugins.length;j++) {
-                    if (JS_plugins.indexOf(plugins[j]) === -1) {
-                        JS_plugins.push(plugins[j])
+                // 03.1. setup component npm - JS
+                npms = subpackage.scripts.npm
+                for (let j = 0;j < npms.length;j++) {
+                    if (JS_NPM.indexOf(npms[j]) === -1) {
+                        JS_NPM.push(npms[j])
                     }
                 }
 
                 // 03.2. setup component helpers - SCSS
-                helpers = subpackage.styles.helpers
+                let helpers = subpackage.styles.helpers
                 for (let j = 0;j < helpers.length;j++) {
                     // define helper path
                     const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/style.scss'
@@ -241,19 +238,19 @@ module.exports = (grunt) => {
             // get module package
             const package = require('./' + path + '/package.js')
 
-            // 01. setup plugins - SCSS
-            let plugins = package.styles.plugins
-            for (let i = 0;i < plugins.length;i++) {
-                if (SCSS_plugins.indexOf(plugins[i]) === -1) {
-                    SCSS_plugins.push(plugins[i])
+            // 01. setup npm - SCSS
+            let npms = package.styles.npm
+            for (let i = 0;i < npms.length;i++) {
+                if (SCSS_NPM.indexOf(npms[i]) === -1) {
+                    SCSS_NPM.push(npms[i])
                 }
             }
 
-            // 01. setup plugins - JS
-            plugins = package.scripts.plugins
-            for (let i = 0;i < plugins.length;i++) {
-                if (JS_plugins.indexOf(plugins[i]) === -1) {
-                    JS_plugins.push(plugins[i])
+            // 01. setup npm - JS
+            npms = package.scripts.npm
+            for (let i = 0;i < npms.length;i++) {
+                if (JS_NPM.indexOf(npms[i]) === -1) {
+                    JS_NPM.push(npms[i])
                 }
             }
 
@@ -286,65 +283,70 @@ module.exports = (grunt) => {
             }
             // components = components.concat(templates[template].components)
             for (let i = 0;i < components.length;i++) {
-                // define component path
-                const subpath = config.templates.components.path + '/' + components[i].name + '/' + components[i].type
+                 // get component type
+                let types = components[i].type
 
-                // get component package
-                const subpackage = require('./' + subpath + '/package.js')
+                for (let a = 0;a < types.length;a++) {
+                    // define component path
+                    const subpath = config.templates.components.path + '/' + components[i].name + '/' + types[a]
 
-                // 03.1. setup component plugins - SCSS
-                plugins = subpackage.styles.plugins
-                for (let j = 0;j < plugins.length;j++) {
-                    if (SCSS_plugins.indexOf(plugins[j]) === -1) {
-                        SCSS_plugins.push(plugins[j])
+                    // get component package
+                    const subpackage = require('./' + subpath + '/package.js')
+
+                    // 03.1. setup component npm - SCSS
+                    let npms = subpackage.styles.npm
+                    for (let j = 0;j < npms.length;j++) {
+                        if (SCSS_NPM.indexOf(npms[j]) === -1) {
+                            SCSS_NPM.push(npms[j])
+                        }
                     }
-                }
 
-                // 03.1. setup component plugins - JS
-                plugins = subpackage.scripts.plugins
-                for (let j = 0;j < plugins.length;j++) {
-                    if (JS_plugins.indexOf(plugins[j]) === -1) {
-                        JS_plugins.push(plugins[j])
+                    // 03.1. setup component npm - JS
+                    npms = subpackage.scripts.npm
+                    for (let j = 0;j < npms.length;j++) {
+                        if (JS_NPM.indexOf(npms[j]) === -1) {
+                            JS_NPM.push(npms[j])
+                        }
                     }
-                }
 
-                // 03.2. setup component helpers - SCSS
-                helpers = subpackage.styles.helpers
-                for (let j = 0;j < helpers.length;j++) {
-                    // define helper path
-                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/style.scss'
-                    if (SCSS_helpers.indexOf(helperPath) === -1) {
-                        SCSS_helpers.push(helperPath)
+                    // 03.2. setup component helpers - SCSS
+                    let helpers = subpackage.styles.helpers
+                    for (let j = 0;j < helpers.length;j++) {
+                        // define helper path
+                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/style.scss'
+                        if (SCSS_helpers.indexOf(helperPath) === -1) {
+                            SCSS_helpers.push(helperPath)
+                        }
                     }
-                }
 
-                // 03.2. setup component helpers - JS
-                helpers = subpackage.scripts.helpers
-                for (let j = 0;j < helpers.length;j++) {
-                    // define helper path
-                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/script.js'
-                    if (JS_helpers.indexOf(helperPath) === -1) {
-                        JS_helpers.push(helperPath)
+                    // 03.2. setup component helpers - JS
+                    helpers = subpackage.scripts.helpers
+                    for (let j = 0;j < helpers.length;j++) {
+                        // define helper path
+                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/script.js'
+                        if (JS_helpers.indexOf(helperPath) === -1) {
+                            JS_helpers.push(helperPath)
+                        }
                     }
-                }
 
-                // 04. setup component assets - SCSS
-                let assets = subpackage.styles.main
-                for (let j = 0;j < assets.length;j++) {
-                    // define asset path
-                    const assetPath = subpath + '/scss/' + assets[j]
-                    if (SCSS_assets.indexOf(assetPath) === -1) {
-                        SCSS_assets.push(assetPath)
+                    // 04. setup component assets - SCSS
+                    let assets = subpackage.styles.main
+                    for (let j = 0;j < assets.length;j++) {
+                        // define asset path
+                        const assetPath = subpath + '/scss/' + assets[j]
+                        if (SCSS_assets.indexOf(assetPath) === -1) {
+                            SCSS_assets.push(assetPath)
+                        }
                     }
-                }
 
-                // 04. setup component assets - JS
-                assets = subpackage.scripts.main
-                for (let j = 0;j < assets.length;j++) {
-                    // define asset path
-                    const assetPath = subpath + '/js/' + assets[j]
-                    if (JS_assets.indexOf(assetPath) === -1) {
-                        JS_assets.push(assetPath)
+                    // 04. setup component assets - JS
+                    assets = subpackage.scripts.main
+                    for (let j = 0;j < assets.length;j++) {
+                        // define asset path
+                        const assetPath = subpath + '/js/' + assets[j]
+                        if (JS_assets.indexOf(assetPath) === -1) {
+                            JS_assets.push(assetPath)
+                        }
                     }
                 }
             }
@@ -378,11 +380,11 @@ module.exports = (grunt) => {
         grunt.initConfig({
             concat: {
                 scss: {
-                    src: SCSS_plugins.concat(SCSS, SCSS_helpers, SCSS_assets),
+                    src: SCSS_NPM.concat(SCSS, SCSS_helpers, SCSS_assets),
                     dest: compiled + '/scss/' + template + '.scss'
                 },
                 js: {
-                    src: JS_plugins.concat(JS, JS_helpers, JS_assets),
+                    src: JS_NPM.concat(JS, JS_helpers, JS_assets),
                     dest: compiled + '/js/' + template + '.js'
                 }
             },
