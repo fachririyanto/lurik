@@ -13,8 +13,7 @@ Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*
 Bisa dikatakan ini adalah kode-kode yang harus selalu ada di setiap halaman website. Contohnya, *Twitter Bootstrap*, *Foundation*, *jQuery*, *CSS Normalize* dan sebagainya. Kode-kode tersebut juga dapat digunakan sebagai kode dasar pembuatan template.
 
 - **Helpers**\
-Kode-kode yang sifatnya bantuan saja. Pada kode CSS sebagai contoh adalah class untuk tata letak text atau disebut *text-align*.\
-
+Kode-kode yang sifatnya bantuan saja. Pada kode CSS sebagai contoh adalah class untuk tata letak text atau disebut *text-align*.
 ```css
 .text-center { text-align: center; }
 .text-right { text-align: right; }
