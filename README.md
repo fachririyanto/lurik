@@ -3,19 +3,28 @@
 
 -----
 
-**Lurik** digunakan untuk memudahkan pembuatan website static yang memungkinkan dibuat secara modular sehingga kode-kode terstruktur dengan baik dan dapat digunakan kembali (*reusable*) tanpa harus mencari dan *copy-paste* kode-kode yang sudah dibuat sebelumnya, hanya perlu konfigurasi.
+**Lurik** memungkinkan template website static dibuat secara modular (component & module based), kodenya terstruktur dengan baik (rapih), dan setiap template dapat memiliki lebih dari satu variasi layout (dengan pengelompokan tipe-tipe template).
+
+Lurik menggunakan JavaScript sebagai corenya dengan [GruntJS](https://gruntjs.com/) untuk eksekutor konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi modul yang dibutuhkan ketika membuat sebuah template.
 
 Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*.
 
-- **Core**, *Script* atau/dan *Stylesheet* yang dijalankan pertama kali yang mungkin akan dipakai di setiap halaman website. Misalnya CSS Normalize, jQuery, Twitter Bootstrap, Foundation, dan sebagainya.
+- **Core**\
+Bisa dikatakan ini adalah kode-kode yang harus selalu ada di setiap halaman website. Contohnya, *Twitter Bootstrap*, *Foundation*, *jQuery*, *CSS Normalize* dan sebagainya. Kode-kode tersebut juga dapat digunakan sebagai kode dasar pembuatan template.
 
-- **Helpers**, *Script* atau/dan *Stylesheet* yang sifatnya bantuan atau bisa disebut juga dengan *plugins*.
+- **Helpers**\
+Kode-kode yang sifatnya bantuan saja. Pada kode CSS sebagai contoh adalah class untuk tata letak text atau disebut *text-align*.\
 
-- **Components**, Bagian-bagian terkecil dari sebuah *templates* yang dapat digunakan berulang kali sesuai kebutuhan (*reusable*) untuk membentuk suatu modul. Contohnya *avatar*, *textbox*, *checkbox*, *post-item*, *comment-item*, dan sebagainya.
+```css
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+```
 
-- **Modules**, Potongan-potongan untuk membentuk sebuah *template*. Contohnya modul *header*, *footer*, *why-us*, dan sebagainya.
 
-Lurik dibuat dengan bantuan [GruntJS](https://gruntjs.com/) untuk eksekusi konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi module yang dibutuhkan untuk membuat template.
+- **Components**, Bagian yang paling kecil dari sebuah template website yang dapat digunakan berulang kali sesuai kebutuhan (*reusable*) untuk membentuk suatu *modules*. Contoh *components* yaitu *avatar*, *textbox*, *checkbox*, *post-item*, *comment-item*, dan sebagainya.
+
+- **Modules**, Potongan-potongan layout untuk membentuk sebuah template website. Contoh *modules* yaitu *header*, *footer*, *why-us*, dan sebagainya.
 
 -----
 
