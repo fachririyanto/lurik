@@ -263,7 +263,7 @@ Setelah membuat *core*, *helpers*, *components* dan *modules*, hal berikutnya ya
 
 Dan berikut contoh konfigurasi untuk me-register script nya:
 
-```
+```js
 module.exports = {
     about: {
         ID: "starter",
