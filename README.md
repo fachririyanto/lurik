@@ -306,7 +306,15 @@ module.exports = {
                 { name: "header", type: "type-1" },
                 { name: "footer", type: "type-1" },
                 { name: "posts", type: "type-1" },
-                { name: "posts", type: "type-2" }
+
+                // overriding or registering new default components
+                {
+                    name: "posts",
+                    type: "type-2",
+                    components: [
+                        { name: "block-header", "type": [ "type-1" ] }
+                    ]
+                }
             ]
         },
 
@@ -347,5 +355,6 @@ module.exports = {
 
 Pada option templates, terdapat option *home*, *global* dan *other*. Option tersebut kita yang menentukan sendiri penamaannya sesuai dengan template yang ingin dibuat. Option-option tersebut akan membuat masing-masing 1 file CSS dan JS, hasilnya adalah home.js, home.css, global.js, global.css, other.js, dan other.js. Sehingga memungkinkan Anda menggunakan component dan module sesuai dengan kebutuhan template-nya saja.
 
-
+\
+\
 **Terima kasih.**
