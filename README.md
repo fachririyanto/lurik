@@ -3,9 +3,9 @@
 
 -----
 
-**Lurik** memungkinkan template website static dibuat secara modular (component & module based), kodenya terstruktur dengan baik (rapih), dan setiap template dapat memiliki lebih dari satu variasi layout (dengan pengelompokan tipe-tipe template).
+**Lurik** adalah sebuah framework dengan model konfigurasi berbasis JavaScript yang memungkinkan template website static dibuat secara modular (*component & module based* dan dapat dipakai berulang-ulang atau *reusable*), kodenya terstruktur dengan baik (rapih, setiap *component & module* memiliki file CSS dan JS di folder yang sama), dan setiap template dapat memiliki lebih dari satu variasi layout (dengan pengelompokan tipe-tipe template) serta kemudahan untuk berkolaborasi atau berkontribusi karena sistem *component* dan *module*-nya dibuat per folder.
 
-Lurik menggunakan JavaScript sebagai corenya dengan [GruntJS](https://gruntjs.com/) untuk eksekutor konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi modul yang dibutuhkan ketika membuat sebuah template.
+Lurik menggunakan tools bantuan seperti [GruntJS](https://gruntjs.com/) untuk melakukan eksekusi konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi modul (*jQuery plugin*, dan sebagainya) yang dibutuhkan ketika membuat sebuah template.
 
 Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*.
 
@@ -66,11 +66,11 @@ Jika hanya ingin meng-compile script atau style klien, ketik:\
 
 **03. Add/Update Core**
 
-Pada folder “templates/core” (core with underscore), terdapat folder js untuk file JavaScript (file.js), dan SCSS untuk file stylesheet atau SCSS (file.scss). Letakan script atau style Anda pada masing-masing folder sesuai tipe filenya.
+Pada folder “templates/\_core”, terdapat folder "js" untuk file JS (file.js), dan folder "scss" untuk file SCSS (file.scss). Letakan script atau style Anda pada masing-masing folder sesuai tipe filenya.
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-core.png)
 
-Anda bisa memecah menjadi beberapa script/style agar kode tidak terkumpul menjadi satu file. Hal tersebut juga agar memudahkan pencarian kode jika ada error atau dapat melakukan pembagian kode jika bekerja dalam tim.
+Anda bisa memecah menjadi beberapa file script/style agar kode tidak terkumpul menjadi satu file. Hal tersebut juga agar memudahkan pencarian kode jika ada error atau dapat melakukan pembagian kode jika bekerja dalam tim.
 
 -----
 
@@ -80,10 +80,10 @@ Pada folder “templates/helpers”, buat folder baru dengan nama helper yang in
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-helpers.png)
 
-Setelah itu buat file script.js untuk file JavaScript, dan style.scss untuk file stylesheet atau SCSS. Karena sifatnya yang hanya sebagai pembantu script lain, sehingga hanya disediakan satu file saja (tidak seperti Core, Components dan Modules).
+Setelah itu buat file script.js untuk file JS, dan style.scss untuk file SCSS. Karena sifatnya yang hanya sebagai pembantu script lain, sehingga hanya disediakan satu file saja (tidak seperti *Core*, *Components* dan *Modules*).
 
 **Catatan:**\
-Jika dalam satu template memakai dua tipe helper dari nama yang sama, bagaimana cara membedakannya? Caranya adalah dengan penamaan class nya, contohnya untuk helper tipe 1 diberikan class dengan nama **.U--helper.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Jika dalam satu template memakai dua tipe helper dari nama yang sama, bagaimana cara membedakannya? Caranya adalah dengan penamaan class nya, contohnya untuk helper tipe 1 diberikan class dengan nama **.U--helper.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya. Intinya diberikan penamaan class yang unik untuk setiap helpernya.
 
 -----
 
@@ -104,14 +104,14 @@ Penjelasan:
 - **about: { Object } - optional**\
 Digunakan untuk deskripsi tentang komponen yang dibuat. Saat ini, option about belum digunakan selain hanya untuk deskripsi.
 
-- **dependencies: array**\
+- **npm: array**\
 List modul NPM yang akan dipakai, cukup isikan dengan nama modulnya.\
 Contoh: [ “jquery”, “owl.carousel”, … ]
 
 - **scripts: { Object }**\
 Scripts sendiri terbagi lagi menjadi 3 bagian, yaitu plugins, helpers dan main.
 
-  - **plugins: array**\
+  - **npm: array**\
 Berisi list path script dari modul NPM yang dipakai.\
 Contoh: [ “node_modules/jquery/dist/jquery.min.js”, … ]
 
@@ -132,7 +132,7 @@ Sama seperti scripts, styles juga memiliki 3 bagian yang sama, cara isinya pun s
 
 \
 **Catatan:**\
-Sama dengan helper, jika dalam satu template memakai dua tipe komponen dari nama yang sama, berikan penamaan seperti .C--component-name.type--1, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Sama dengan helper, jika dalam satu template memakai dua tipe komponen dari nama yang sama, berikan penamaan yang unik seperti **.C--component-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
 
 -----
 
@@ -154,13 +154,13 @@ Contoh: [ { name: “post”, type: “type-1” }, … ]
 
 \
 **Catatan:**\
-Sama dengan komponen, jika dalam satu template memakai dua tipe modul dari nama yang sama, berikan penamaan seperti .M--module-name.type--1, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Sama dengan komponen, jika dalam satu template memakai dua tipe modul dari nama yang sama, berikan penamaan unik seperti **.M--module-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
 
 -----
 
 **07. Registering Scripts**
 
-Setelah membuat core, helpers, components dan modules, hal berikutnya yang perlu dilakukan adalah melakukan register scripts. Pada folder “settings/clients”, buat file baru dengan extension .js, seperti berikut:
+Setelah membuat *core*, *helpers*, *components* dan *modules*, hal berikutnya yang perlu dilakukan adalah melakukan register scripts. Pada folder “settings/clients”, buat file baru dengan extension .js, seperti berikut:
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings.png)
 
