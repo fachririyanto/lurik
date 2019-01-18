@@ -40,7 +40,15 @@ module.exports = {
                 { name: "header", type: "type-1" },
                 { name: "footer", type: "type-1" },
                 { name: "posts", type: "type-1" },
-                { name: "posts", type: "type-2" }
+
+                // overriding or registering new default components
+                {
+                    name: "posts",
+                    type: "type-2",
+                    components: [
+                        { name: "block-header", "type": [ "type-1" ] }
+                    ]
+                }
             ]
         },
 
