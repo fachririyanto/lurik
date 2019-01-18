@@ -89,85 +89,263 @@ Jika dalam satu template memakai dua tipe helper dari nama yang sama, bagaimana 
 
 **05. Add/Update Components**
 
-Pada folder “templates/components”, buat folder baru dengan nama komponen yang akan dibuat. Sama seperti helper, komponen dapat memiliki bermacam-macam tipe. Perbedaan dengan helper adalah komponen dapat memiliki lebih dari satu file untuk masing-masing file JS dan SCSS.
+Pada folder “templates/components”, buat folder baru dengan nama component yang akan dibuat. Sama seperti helper, component dapat memiliki bermacam-macam tipe. Perbedaan dengan helper adalah component dapat memiliki lebih dari satu file untuk masing-masing file JS dan SCSS.
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-components.png)
 
-Selain itu, komponen memiliki file wajib yaitu package.js. File tersebut adalah konfigurasi dari komponen yang Anda buat. Di file tersebut anda akan me-register script atau style mana saja yang akan di-load, dan dapat diurutkan juga kode mana yang akan dijalankan duluan serta Anda juga dapat meregister modul NPM yang akan dipakai oleh komponen.
+Selain itu, component memiliki file wajib yaitu package.js. File tersebut adalah konfigurasi dari component yang Anda buat. Di file tersebut anda akan me-register script atau style mana saja yang akan di-load, dan dapat diurutkan juga kode mana yang akan dijalankan duluan serta Anda juga dapat meregister modul NPM yang akan dipakai oleh component.
 
 Contoh package.js:
 
-![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-components-package.png)
+```js
+module.exports = {
+	about: {
+		ID: "your-component-name",
+		name: "Your Component Name",
+		description: "",
+		author: {
+			name: "Fachri Riyanto",
+			url: "https://fachririyanto.com",
+			email: "fachririyanto@gmail.com"
+		},
+		version: "1.0.0"
+	},
 
-Penjelasan:
+	// nama package pada NPM
+	npm: ["owl.carousel", ...],
+	
+	// file scripts
+	scripts: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.js",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file script.js pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
+		
+		// script yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"internal-helper.js",
+			"script.js"
+		]
+	},
+	
+	// file SCSS
+	styles: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.css",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file style.scss pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
 
-- **about: { Object } - optional**\
-Digunakan untuk deskripsi tentang komponen yang dibuat. Saat ini, option about belum digunakan selain hanya untuk deskripsi.
-
-- **npm: array**\
-List modul NPM yang akan dipakai, cukup isikan dengan nama modulnya.\
-Contoh: [ “jquery”, “owl.carousel”, … ]
-
-- **scripts: { Object }**\
-Scripts sendiri terbagi lagi menjadi 3 bagian, yaitu plugins, helpers dan main.
-
-  - **npm: array**\
-Berisi list path script dari modul NPM yang dipakai.\
-Contoh: [ “node_modules/jquery/dist/jquery.min.js”, … ]
-
-  - **helpers: array of Object**\
-Helper yang dipakai oleh komponen yang Anda buat.\
-Contoh: [\
-{ name: “hello”, type: “type-1” },\
-...\
-]
-
-  - **main: array**\
-Digunakan untuk me-register script yang sudah Anda buat. Cukup mengisi nama file-nya saja karena pathnya akan otomatis mengarah ke folder “js”.\
-Contoh: [ “script.js”, … ]\
-Urutan index array mempengaruhi urutan untuk dijalankan pertama kali.
-
-- **styles: { Object }**\
-Sama seperti scripts, styles juga memiliki 3 bagian yang sama, cara isinya pun sama hanya berbeda tipe filenya saja.
+		// CSS yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"style.scss"
+		]
+	}
+}
+```
 
 \
 **Catatan:**\
-Sama dengan helper, jika dalam satu template memakai dua tipe komponen dari nama yang sama, berikan penamaan yang unik seperti **.C--component-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Sama dengan helper, jika dalam satu template memakai dua tipe component dari nama yang sama, berikan penamaan yang unik seperti **.C--component-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
 
 -----
 
 **06. Add/Update Modules**
 
-Pada folder “templates/modules”, buat folder baru dengan nama modul yang akan dibuat. Sama seperti komponen, modul dapat memiliki beberapa tipe untuk setiap modulnya.
+Pada folder “templates/modules”, buat folder baru dengan nama module yang akan dibuat. Sama seperti component, module dapat memiliki beberapa tipe untuk setiap modulenya.
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-modules.png)
 
-Perbedaan modul dan komponen terdapat pada file package.js nya.
+Perbedaan module dan component terdapat pada file package.js nya. Pada module, terdapat option components. Yang digunakan untuk menentukan component mana saja yang akan dipakai sebagai component default untuk module yang sedang dibuat.
 
-![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-modules-package.png)
+```js
+module.exports = {
+	about: {
+		ID: "your-component-name",
+		name: "Your Component Name",
+		description: "",
+		author: {
+			name: "Fachri Riyanto",
+			url: "https://fachririyanto.com",
+			email: "fachririyanto@gmail.com"
+		},
+		version: "1.0.0"
+	},
 
-Pada modul, terdapat option components. Yang digunakan untuk menentukan komponen mana saja yang akan dipakai sebagai komponen default untuk modul yang sedang dibuat.
+	// nama package pada NPM
+	npm: ["owl.carousel", ...],
+	
+	// list components
+	components: [
+		{ name: "component-name", type: ["type-1"] },
+		...
+	],
+	
+	// file scripts
+	scripts: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.js",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file script.js pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
+		
+		// script yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"internal-helper.js",
+			"script.js"
+		]
+	},
+	
+	// file SCSS
+	styles: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.css",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file style.scss pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
 
-- **components: array of Object**\
-Komponen yang dipakai oleh modul yang Anda buat.\
-Contoh: [ { name: “post”, type: “type-1” }, … ]
+		// CSS yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"style.scss"
+		]
+	}
+}
+```
 
 \
 **Catatan:**\
-Sama dengan komponen, jika dalam satu template memakai dua tipe modul dari nama yang sama, berikan penamaan unik seperti **.M--module-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Sama dengan component, jika dalam satu template memakai dua tipe module dari nama yang sama, berikan penamaan unik seperti **.M--module-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
 
 -----
 
 **07. Registering Scripts**
 
-Setelah membuat *core*, *helpers*, *components* dan *modules*, hal berikutnya yang perlu dilakukan adalah melakukan register scripts. Pada folder “settings/clients”, buat file baru dengan extension .js, seperti berikut:
+Setelah membuat *core*, *helpers*, *components* dan *modules*, hal berikutnya yang perlu dilakukan adalah melakukan registrasi component dan module yang akan dipakai untuk membangun sebuah template. Pada folder “settings/clients”, buat file baru dengan extension .js, seperti berikut:
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings.png)
 
 Dan berikut contoh konfigurasi untuk me-register script nya:
 
-![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings-config.png)
+```
+module.exports = {
+    about: {
+        ID: "starter",
+        name: "Starter",
+        version: "1.0.0",
+        author: {
+            name: "Fachri Riyanto",
+            url: "https://fachririyanto.com",
+            email: "fachririyanto@gmail.com"
+        }
+    },
 
-Pada option templates, terdapat option home, global dan other. Option tersebut kita yang menentukan sendiri penamaannya sesuai dengan template yang ingin dibuat. Sebagai contoh option home, pada halaman atau template home, Anda butuh komponen dan modul apa saja yang dibutuhkan untuk membuat layoutnya.
+    /**
+     * Core global overriding - for all templates.
+     */
+    core: {
+        scss: [
+            'templates/_core/scss/vendor/css3-mixins.scss',
+            'templates/_core/scss/variable.scss',
+            'templates/_core/scss/utilities.scss',
+            'templates/_core/scss/style.scss'
+        ],
+        js: [
+            'templates/_core/js/script.js'
+        ]
+    },
 
-Option-option tersebut akan membuat masing-masing 1 file CSS dan JS, hasilnya adalah home.js, home.css, global.js, global.css, other.js, dan other.js. Sehingga memungkinkan Anda me-load komponen dan modul sesuai dengan kebutuhan template-nya saja.
+    /**
+     * Setup templates.
+     */
+    templates: {
+        /**
+         * Home template.
+         */
+        home: {
+            components: [
+                { name: "post", type: [ "type-1" ] }
+            ],
+            modules: [
+                { name: "header", type: "type-1" },
+                { name: "footer", type: "type-1" },
+                { name: "posts", type: "type-1" },
+                { name: "posts", type: "type-2" }
+            ]
+        },
+
+        /**
+         * If you just want to get core style and script.
+         * @example I set a global template as a name of style and script file.
+         */
+        global: {
+            components: [],
+            modules: []
+        },
+
+        /**
+         * Overriding core - for specific template.
+         * You can reset one of scss of js value or both of them.
+         */
+        other: {
+            core: {
+                scss: [
+                    'templates/_core/scss/vendor/css3-mixins.scss',
+                    'templates/_core/scss/variable.scss'
+                ],
+                js: []
+            },
+            components: [
+                { name: "post", type: [ "type-1" ] }
+            ],
+            modules: [
+                { name: "header", type: "type-1" },
+                { name: "footer", type: "type-1" },
+                { name: "posts", type: "type-1" },
+                { name: "posts", type: "type-2" }
+            ]
+        }
+    }
+}
+```
+
+Pada option templates, terdapat option *home*, *global* dan *other*. Option tersebut kita yang menentukan sendiri penamaannya sesuai dengan template yang ingin dibuat. Option-option tersebut akan membuat masing-masing 1 file CSS dan JS, hasilnya adalah home.js, home.css, global.js, global.css, other.js, dan other.js. Sehingga memungkinkan Anda menggunakan component dan module sesuai dengan kebutuhan template-nya saja.
+
+
+**Terima kasih.**
