@@ -3,19 +3,27 @@
 
 -----
 
-**Lurik** digunakan untuk memudahkan pembuatan website static yang memungkinkan dibuat secara modular sehingga kode-kode terstruktur dengan baik dan dapat digunakan kembali (*reusable*) tanpa harus mencari dan *copy-paste* kode-kode yang sudah dibuat sebelumnya, hanya perlu konfigurasi.
+**Lurik** adalah sebuah framework dengan model konfigurasi berbasis JavaScript yang memungkinkan template website static dibuat secara modular (*component & module based* dan dapat dipakai berulang-ulang atau *reusable*), kodenya terstruktur dengan baik (rapih, setiap *component & module* memiliki file CSS dan JS di folder yang sama), dan setiap template dapat memiliki lebih dari satu variasi layout (dengan pengelompokan tipe-tipe template) serta kemudahan untuk berkolaborasi atau berkontribusi karena sistem *component* dan *module*-nya dibuat per folder.
+
+Lurik menggunakan tools bantuan seperti [GruntJS](https://gruntjs.com/) untuk melakukan eksekusi konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi modul (*jQuery plugin*, dan sebagainya) yang dibutuhkan ketika membuat sebuah template.
 
 Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*.
 
-- **Core**, *Script* atau/dan *Stylesheet* yang dijalankan pertama kali yang mungkin akan dipakai di setiap halaman website. Misalnya CSS Normalize, jQuery, Twitter Bootstrap, Foundation, dan sebagainya.
+- **Core**\
+Bisa dikatakan ini adalah kode-kode yang harus selalu ada di setiap halaman website. Contohnya, *Twitter Bootstrap*, *Foundation*, *jQuery*, *CSS Normalize* dan sebagainya. Kode-kode tersebut juga dapat digunakan sebagai kode dasar pembuatan template.
 
-- **Helpers**, *Script* atau/dan *Stylesheet* yang sifatnya bantuan atau bisa disebut juga dengan *plugins*.
+- **Helpers**\
+Kode-kode yang sifatnya bantuan saja. Pada kode CSS sebagai contoh adalah class untuk tata letak text atau disebut *text-align*.
+```css
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-justify { text-align: justify; }
+```
 
-- **Components**, Bagian-bagian terkecil dari sebuah *templates* yang dapat digunakan berulang kali sesuai kebutuhan (*reusable*) untuk membentuk suatu modul. Contohnya *avatar*, *textbox*, *checkbox*, *post-item*, *comment-item*, dan sebagainya.
 
-- **Modules**, Potongan-potongan untuk membentuk sebuah *template*. Contohnya modul *header*, *footer*, *why-us*, dan sebagainya.
+- **Components**, Bagian yang paling kecil dari sebuah template website yang dapat digunakan berulang kali sesuai kebutuhan (*reusable*) untuk membentuk suatu *modules*. Contoh *components* yaitu *avatar*, *textbox*, *checkbox*, *post-item*, *comment-item*, dan sebagainya.
 
-Lurik dibuat dengan bantuan [GruntJS](https://gruntjs.com/) untuk eksekusi konfigurasinya dan [NodeJS](https://nodejs.org/en/) untuk instalasi module yang dibutuhkan untuk membuat template.
+- **Modules**, Potongan-potongan layout untuk membentuk sebuah template website. Contoh *modules* yaitu *header*, *footer*, *why-us*, dan sebagainya.
 
 -----
 
@@ -58,11 +66,11 @@ Jika hanya ingin meng-compile script atau style klien, ketik:\
 
 **03. Add/Update Core**
 
-Pada folder “templates/core” (core with underscore), terdapat folder js untuk file JavaScript (file.js), dan SCSS untuk file stylesheet atau SCSS (file.scss). Letakan script atau style Anda pada masing-masing folder sesuai tipe filenya.
+Pada folder “templates/\_core”, terdapat folder "js" untuk file JS (file.js), dan folder "scss" untuk file SCSS (file.scss). Letakan script atau style Anda pada masing-masing folder sesuai tipe filenya.
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-core.png)
 
-Anda bisa memecah menjadi beberapa script/style agar kode tidak terkumpul menjadi satu file. Hal tersebut juga agar memudahkan pencarian kode jika ada error atau dapat melakukan pembagian kode jika bekerja dalam tim.
+Anda bisa memecah menjadi beberapa file script/style agar kode tidak terkumpul menjadi satu file. Hal tersebut juga agar memudahkan pencarian kode jika ada error atau dapat melakukan pembagian kode jika bekerja dalam tim.
 
 -----
 
@@ -72,94 +80,281 @@ Pada folder “templates/helpers”, buat folder baru dengan nama helper yang in
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-helpers.png)
 
-Setelah itu buat file script.js untuk file JavaScript, dan style.scss untuk file stylesheet atau SCSS. Karena sifatnya yang hanya sebagai pembantu script lain, sehingga hanya disediakan satu file saja (tidak seperti Core, Components dan Modules).
+Setelah itu buat file script.js untuk file JS, dan style.scss untuk file SCSS. Karena sifatnya yang hanya sebagai pembantu script lain, sehingga hanya disediakan satu file saja (tidak seperti *Core*, *Components* dan *Modules*).
 
 **Catatan:**\
-Jika dalam satu template memakai dua tipe helper dari nama yang sama, bagaimana cara membedakannya? Caranya adalah dengan penamaan class nya, contohnya untuk helper tipe 1 diberikan class dengan nama **.U--helper.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Jika dalam satu template memakai dua tipe helper dari nama yang sama, bagaimana cara membedakannya? Caranya adalah dengan penamaan class nya, contohnya untuk helper tipe 1 diberikan class dengan nama **.U--helper.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya. Intinya diberikan penamaan class yang unik untuk setiap helpernya.
 
 -----
 
 **05. Add/Update Components**
 
-Pada folder “templates/components”, buat folder baru dengan nama komponen yang akan dibuat. Sama seperti helper, komponen dapat memiliki bermacam-macam tipe. Perbedaan dengan helper adalah komponen dapat memiliki lebih dari satu file untuk masing-masing file JS dan SCSS.
+Pada folder “templates/components”, buat folder baru dengan nama component yang akan dibuat. Sama seperti helper, component dapat memiliki bermacam-macam tipe. Perbedaan dengan helper adalah component dapat memiliki lebih dari satu file untuk masing-masing file JS dan SCSS.
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-components.png)
 
-Selain itu, komponen memiliki file wajib yaitu package.js. File tersebut adalah konfigurasi dari komponen yang Anda buat. Di file tersebut anda akan me-register script atau style mana saja yang akan di-load, dan dapat diurutkan juga kode mana yang akan dijalankan duluan serta Anda juga dapat meregister modul NPM yang akan dipakai oleh komponen.
+Selain itu, component memiliki file wajib yaitu package.js. File tersebut adalah konfigurasi dari component yang Anda buat. Di file tersebut anda akan me-register script atau style mana saja yang akan di-load, dan dapat diurutkan juga kode mana yang akan dijalankan duluan serta Anda juga dapat meregister modul NPM yang akan dipakai oleh component.
 
 Contoh package.js:
 
-![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-components-package.png)
+```js
+module.exports = {
+	about: {
+		ID: "your-component-name",
+		name: "Your Component Name",
+		description: "",
+		author: {
+			name: "Fachri Riyanto",
+			url: "https://fachririyanto.com",
+			email: "fachririyanto@gmail.com"
+		},
+		version: "1.0.0"
+	},
 
-Penjelasan:
+	// nama package pada NPM
+	npm: ["owl.carousel", ...],
+	
+	// file scripts
+	scripts: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.js",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file script.js pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
+		
+		// script yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"internal-helper.js",
+			"script.js"
+		]
+	},
+	
+	// file SCSS
+	styles: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.css",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file style.scss pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
 
-- **about: { Object } - optional**\
-Digunakan untuk deskripsi tentang komponen yang dibuat. Saat ini, option about belum digunakan selain hanya untuk deskripsi.
-
-- **dependencies: array**\
-List modul NPM yang akan dipakai, cukup isikan dengan nama modulnya.\
-Contoh: [ “jquery”, “owl.carousel”, … ]
-
-- **scripts: { Object }**\
-Scripts sendiri terbagi lagi menjadi 3 bagian, yaitu plugins, helpers dan main.
-
-  - **plugins: array**\
-Berisi list path script dari modul NPM yang dipakai.\
-Contoh: [ “node_modules/jquery/dist/jquery.min.js”, … ]
-
-  - **helpers: array of Object**\
-Helper yang dipakai oleh komponen yang Anda buat.\
-Contoh: [\
-{ name: “hello”, type: “type-1” },\
-...\
-]
-
-  - **main: array**\
-Digunakan untuk me-register script yang sudah Anda buat. Cukup mengisi nama file-nya saja karena pathnya akan otomatis mengarah ke folder “js”.\
-Contoh: [ “script.js”, … ]\
-Urutan index array mempengaruhi urutan untuk dijalankan pertama kali.
-
-- **styles: { Object }**\
-Sama seperti scripts, styles juga memiliki 3 bagian yang sama, cara isinya pun sama hanya berbeda tipe filenya saja.
+		// CSS yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"style.scss"
+		]
+	}
+}
+```
 
 \
 **Catatan:**\
-Sama dengan helper, jika dalam satu template memakai dua tipe komponen dari nama yang sama, berikan penamaan seperti .C--component-name.type--1, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Sama dengan helper, jika dalam satu template memakai dua tipe component dari nama yang sama, berikan penamaan yang unik seperti **.C--component-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
 
 -----
 
 **06. Add/Update Modules**
 
-Pada folder “templates/modules”, buat folder baru dengan nama modul yang akan dibuat. Sama seperti komponen, modul dapat memiliki beberapa tipe untuk setiap modulnya.
+Pada folder “templates/modules”, buat folder baru dengan nama module yang akan dibuat. Sama seperti component, module dapat memiliki beberapa tipe untuk setiap modulenya.
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-modules.png)
 
-Perbedaan modul dan komponen terdapat pada file package.js nya.
+Perbedaan module dan component terdapat pada file package.js nya. Pada module, terdapat option components. Yang digunakan untuk menentukan component mana saja yang akan dipakai sebagai component default untuk module yang sedang dibuat.
 
-![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-modules-package.png)
+```js
+module.exports = {
+	about: {
+		ID: "your-component-name",
+		name: "Your Component Name",
+		description: "",
+		author: {
+			name: "Fachri Riyanto",
+			url: "https://fachririyanto.com",
+			email: "fachririyanto@gmail.com"
+		},
+		version: "1.0.0"
+	},
 
-Pada modul, terdapat option components. Yang digunakan untuk menentukan komponen mana saja yang akan dipakai sebagai komponen default untuk modul yang sedang dibuat.
+	// nama package pada NPM
+	npm: ["owl.carousel", ...],
+	
+	// list components
+	components: [
+		{ name: "component-name", type: ["type-1"] },
+		...
+	],
+	
+	// file scripts
+	scripts: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.js",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file script.js pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
+		
+		// script yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"internal-helper.js",
+			"script.js"
+		]
+	},
+	
+	// file SCSS
+	styles: {
+		// module yang dipakai component
+		npm: [
+			"node_modules/owl.carousel/dist/owl.carousel.css",
+			...
+		],
+	
+		// helper yang dipakai component
+		// secara otomatis akan memakai file style.scss pada helper
+		helpers: [
+			{ name: "your-helper-name", type: "type-1" },
+			...
+		],
 
-- **components: array of Object**\
-Komponen yang dipakai oleh modul yang Anda buat.\
-Contoh: [ { name: “post”, type: “type-1” }, … ]
+		// CSS yang dipakai component
+		// urutan index array mempengaruhi urutan kode
+		// yang ada di index pertama, itu yang pertama kali dijalankan
+		main: [
+			"style.scss"
+		]
+	}
+}
+```
 
 \
 **Catatan:**\
-Sama dengan komponen, jika dalam satu template memakai dua tipe modul dari nama yang sama, berikan penamaan seperti .M--module-name.type--1, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
+Sama dengan component, jika dalam satu template memakai dua tipe module dari nama yang sama, berikan penamaan unik seperti **.M--module-name.type--1**, sedangkan tipe lainnya diberikan sesuai nama tipenya, dan seterusnya.
 
 -----
 
 **07. Registering Scripts**
 
-Setelah membuat core, helpers, components dan modules, hal berikutnya yang perlu dilakukan adalah melakukan register scripts. Pada folder “settings/clients”, buat file baru dengan extension .js, seperti berikut:
+Setelah membuat *core*, *helpers*, *components* dan *modules*, hal berikutnya yang perlu dilakukan adalah melakukan registrasi component dan module yang akan dipakai untuk membangun sebuah template. Pada folder “settings/clients”, buat file baru dengan extension .js, seperti berikut:
 
 ![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings.png)
 
 Dan berikut contoh konfigurasi untuk me-register script nya:
 
-![alt text](https://github.com/fachririyanto/lurik/blob/master/docs/images/example-settings-config.png)
+```js
+module.exports = {
+    about: {
+        ID: "starter",
+        name: "Starter",
+        version: "1.0.0",
+        author: {
+            name: "Fachri Riyanto",
+            url: "https://fachririyanto.com",
+            email: "fachririyanto@gmail.com"
+        }
+    },
 
-Pada option templates, terdapat option home, global dan other. Option tersebut kita yang menentukan sendiri penamaannya sesuai dengan template yang ingin dibuat. Sebagai contoh option home, pada halaman atau template home, Anda butuh komponen dan modul apa saja yang dibutuhkan untuk membuat layoutnya.
+    /**
+     * Core global overriding - for all templates.
+     */
+    core: {
+        scss: [
+            'templates/_core/scss/vendor/css3-mixins.scss',
+            'templates/_core/scss/variable.scss',
+            'templates/_core/scss/utilities.scss',
+            'templates/_core/scss/style.scss'
+        ],
+        js: [
+            'templates/_core/js/script.js'
+        ]
+    },
 
-Option-option tersebut akan membuat masing-masing 1 file CSS dan JS, hasilnya adalah home.js, home.css, global.js, global.css, other.js, dan other.js. Sehingga memungkinkan Anda me-load komponen dan modul sesuai dengan kebutuhan template-nya saja.
+    /**
+     * Setup templates.
+     */
+    templates: {
+        /**
+         * Home template.
+         */
+        home: {
+            components: [
+                { name: "post", type: [ "type-1" ] }
+            ],
+            modules: [
+                { name: "header", type: "type-1" },
+                { name: "footer", type: "type-1" },
+                { name: "posts", type: "type-1" },
+
+                // overriding or registering new default components
+                {
+                    name: "posts",
+                    type: "type-2",
+                    components: [
+                        { name: "block-header", "type": [ "type-1" ] }
+                    ]
+                }
+            ]
+        },
+
+        /**
+         * If you just want to get core style and script.
+         * @example I set a global template as a name of style and script file.
+         */
+        global: {
+            components: [],
+            modules: []
+        },
+
+        /**
+         * Overriding core - for specific template.
+         * You can reset one of scss of js value or both of them.
+         */
+        other: {
+            core: {
+                scss: [
+                    'templates/_core/scss/vendor/css3-mixins.scss',
+                    'templates/_core/scss/variable.scss'
+                ],
+                js: []
+            },
+            components: [
+                { name: "post", type: [ "type-1" ] }
+            ],
+            modules: [
+                { name: "header", type: "type-1" },
+                { name: "footer", type: "type-1" },
+                { name: "posts", type: "type-1" },
+                { name: "posts", type: "type-2" }
+            ]
+        }
+    }
+}
+```
+
+Pada option templates, terdapat option *home*, *global* dan *other*. Option tersebut kita yang menentukan sendiri penamaannya sesuai dengan template yang ingin dibuat. Option-option tersebut akan membuat masing-masing 1 file CSS dan JS, hasilnya adalah home.js, home.css, global.js, global.css, other.js, dan other.js. Sehingga memungkinkan Anda menggunakan component dan module sesuai dengan kebutuhan template-nya saja.
+
+\
+\
+**Terima kasih.**
