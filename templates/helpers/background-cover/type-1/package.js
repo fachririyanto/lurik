@@ -1,7 +1,7 @@
 module.exports = {
     about: {
-        ID: "header",
-        name: "Header",
+        ID: "background-cover",
+        name: "Background Cover",
         description: "",
         author: {
             name: "Fachri Riyanto",
@@ -11,10 +11,6 @@ module.exports = {
         version: "1.0.0"
     },
     npm: [],
-    components: [],
-    helpers: [
-        { name: "text-align", type: "type-1" }
-    ],
     scripts: {
         npm: [],
         main: []

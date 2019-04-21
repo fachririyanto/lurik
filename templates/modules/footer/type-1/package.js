@@ -11,15 +11,14 @@ module.exports = {
         version: "1.0.0"
     },
     npm: [],
+    helpers: [],
     components: [],
     scripts: {
         npm: [],
-        helpers: [],
         main: []
     },
     styles: {
         npm: [],
-        helpers: [],
         main: [
             "style.scss"
         ]

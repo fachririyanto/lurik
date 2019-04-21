@@ -26,8 +26,10 @@ module.exports = (grunt) => {
 
         // loop templates
         for (let index in templates) {
-            // setup NPM - components
-            const components = templates[index].components
+            /**
+             * Setup NPM - components.
+             */
+            const components = templates[index].components === undefined ? [] : templates[index].components
 
             for (let i = 0;i < components.length;i++) {
                 // get component type
@@ -40,18 +42,42 @@ module.exports = (grunt) => {
                     // get module package
                     const package = require('./' + path + '/package.js')
 
-                    // add dependencies (NPM)
-                    let dependencies = package.npm
-                    for (let j = 0;j < dependencies.length;j++) {
-                        if (NPM_list.indexOf(dependencies[j]) === -1) {
-                            NPM_list.push(dependencies[j])
+                    // add NPM
+                    let npm = package.npm === undefined ? [] : package.npm
+                    for (let j = 0;j < npm.length;j++) {
+                        if (NPM_list.indexOf(npm[j]) === -1) {
+                            NPM_list.push(npm[j])
+                        }
+                    }
+
+                    /**
+                     * Setup NPM - component helpers.
+                     */
+                    const helpers = package.helpers === undefined ? [] : package.helpers
+
+                    for (let j = 0;j < helpers.length;j++) {
+                        // define helper path
+                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
+
+                        // get helper package
+                        const helperPackage = require('./' + helperPath + '/package.js')
+
+                        // get helper npm
+                        let helperNPM = helperPackage.npm
+                        for (let k = 0;k < helperNPM.length;k++) {
+                            if (NPM_list.indexOf(helperNPM[k]) === -1) {
+                                NPM_list.push(helperNPM[k])
+                            }
                         }
                     }
                 }
             }
 
-            // setup NPM - modules
-            const modules = templates[index].modules
+            /**
+             * Setup NPM - modules.
+             */
+            const modules = templates[index].modules === undefined ? [] : templates[index].modules
+
             for (let i = 0;i < modules.length;i++) {
                 // define module path
                 const path = config.templates.modules.path + '/' + modules[i].name + '/' + modules[i].type
@@ -59,15 +85,38 @@ module.exports = (grunt) => {
                 // get module package
                 const package = require('./' + path + '/package.js')
 
-                // add dependencies (NPM)
-                let dependencies = package.npm
-                for (let j = 0;j < dependencies.length;j++) {
-                    if (NPM_list.indexOf(dependencies[j]) === -1) {
-                        NPM_list.push(dependencies[j])
+                // add NPM
+                let npm = package.npm === undefined ? [] : package.npm
+                for (let j = 0;j < npm.length;j++) {
+                    if (NPM_list.indexOf(npm[j]) === -1) {
+                        NPM_list.push(npm[j])
                     }
                 }
 
-                // setup components
+                /**
+                 * Setup NPM - helpers.
+                 */
+                const helpers = package.helpers === undefined ? [] : package.helpers
+
+                for (let j = 0;j < helpers.length;j++) {
+                    // define helper path
+                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
+
+                    // get helper package
+                    const helperPackage = require('./' + helperPath + '/package.js')
+
+                    // get helper npm
+                    let helperNPM = helperPackage.npm === undefined ? [] : helperPackage.npm
+                    for (let k = 0;k < helperNPM.length;k++) {
+                        if (NPM_list.indexOf(helperNPM[k]) === -1) {
+                            NPM_list.push(helperNPM[k])
+                        }
+                    }
+                }
+
+                /**
+                 * Setup NPM - components.
+                 */
                 let subcomponents = package.components
                 if (modules[i].components !== undefined) {
                     subcomponents = modules[i].components
@@ -79,11 +128,32 @@ module.exports = (grunt) => {
                     // get component package
                     const subpackage = require('./' + subpath + '/package.js')
 
-                    // add dependencies
-                    dependencies = subpackage.npm
-                    for (let j = 0;j < dependencies.length;j++) {
-                        if (NPM_list.indexOf(dependencies[j]) === -1) {
-                            NPM_list.push(dependencies[j])
+                    // add NPM
+                    npm = subpackage.npm === undefined ? [] : subpackage.npm
+                    for (let j = 0;j < npm.length;j++) {
+                        if (NPM_list.indexOf(npm[j]) === -1) {
+                            NPM_list.push(npm[j])
+                        }
+                    }
+
+                    /**
+                     * Setup NPM - component helpers.
+                     */
+                    const helpers = subpackage.helpers === undefined ? [] : subpackage.helpers
+
+                    for (let k = 0;k < helpers.length;k++) {
+                        // define helper path
+                        const helperPath = config.templates.helpers.path + '/' + helpers[k].name + '/' + helpers[k].type
+
+                        // get helper package
+                        const helperPackage = require('./' + helperPath + '/package.js')
+
+                        // get helper npm
+                        let helperNPM = helperPackage.npm === undefined ? [] : helperPackage.npm
+                        for (let l = 0;l < helperNPM.length;l++) {
+                            if (NPM_list.indexOf(helperNPM[l]) === -1) {
+                                NPM_list.push(helperNPM[l])
+                            }
                         }
                     }
                 }
@@ -159,7 +229,7 @@ module.exports = (grunt) => {
         let JS_helpers = []
 
         // define components
-        let components = templates[template].components
+        let components = templates[template].components === undefined ? [] : templates[template].components
         for (let i = 0;i < components.length;i++) {
             // get component type
             let types = components[i].type
@@ -172,7 +242,7 @@ module.exports = (grunt) => {
                 const subpackage = require('./' + subpath + '/package.js')
 
                 // 03.1. setup component npm - SCSS
-                let npms = subpackage.styles.npm
+                let npms = subpackage.styles.npm === undefined ? [] : subpackage.styles.npm
                 for (let j = 0;j < npms.length;j++) {
                     if (SCSS_NPM.indexOf(npms[j]) === -1) {
                         SCSS_NPM.push(npms[j])
@@ -180,35 +250,59 @@ module.exports = (grunt) => {
                 }
 
                 // 03.1. setup component npm - JS
-                npms = subpackage.scripts.npm
+                npms = subpackage.scripts.npm === undefined ? [] : subpackage.scripts.npm
                 for (let j = 0;j < npms.length;j++) {
                     if (JS_NPM.indexOf(npms[j]) === -1) {
                         JS_NPM.push(npms[j])
                     }
                 }
 
-                // 03.2. setup component helpers - SCSS
-                let helpers = subpackage.styles.helpers
+                // 03.2. setup component helpers
+                let helpers = subpackage.helpers === undefined ? [] : subpackage.helpers
                 for (let j = 0;j < helpers.length;j++) {
                     // define helper path
-                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/style.scss'
-                    if (SCSS_helpers.indexOf(helperPath) === -1) {
-                        SCSS_helpers.push(helperPath)
-                    }
-                }
+                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
 
-                // 03.2. setup component helpers - JS
-                helpers = subpackage.scripts.helpers
-                for (let j = 0;j < helpers.length;j++) {
-                    // define helper path
-                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/script.js'
-                    if (JS_helpers.indexOf(helperPath) === -1) {
-                        JS_helpers.push(helperPath)
+                    // define helper package
+                    const helperPackage = require('./' + helperPath + '/package.js')
+
+                    // define helper npm - styles
+                    let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
+                    for (let k = 0;k < styles.length;k++) {
+                        if (SCSS_NPM.indexOf(styles[k]) === -1) {
+                            SCSS_NPM.push(styles[k])
+                        }
+                    }
+
+                    // define helper main - styles
+                    styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
+                    for (let k = 0;k < styles.length;k++) {
+                        const helperStylePath = helperPath + '/scss/' + styles[k]
+                        if (SCSS_helpers.indexOf(helperStylePath) === -1) {
+                            SCSS_helpers.push(helperStylePath)
+                        }
+                    }
+
+                    // define helper npm - scripts
+                    let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
+                    for (let k = 0;k < scripts.length;k++) {
+                        if (JS_NPM.indexOf(scripts[k]) === -1) {
+                            JS_NPM.push(scripts[k])
+                        }
+                    }
+
+                    // define helper main - scripts
+                    scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
+                    for (let k = 0;k < scripts.length;k++) {
+                        const helperScriptPath = helperPath + '/js/' + scripts[k]
+                        if (JS_helpers.indexOf(helperScriptPath) === -1) {
+                            JS_helpers.push(helperScriptPath)
+                        }
                     }
                 }
 
                 // 04. setup component assets - SCSS
-                let assets = subpackage.styles.main
+                let assets = subpackage.styles.main === undefined ? [] : subpackage.styles.main
                 for (let j = 0;j < assets.length;j++) {
                     // define asset path
                     const assetPath = subpath + '/scss/' + assets[j]
@@ -218,7 +312,7 @@ module.exports = (grunt) => {
                 }
 
                 // 04. setup component assets - JS
-                assets = subpackage.scripts.main
+                assets = subpackage.scripts.main === undefined ? [] : subpackage.scripts.main
                 for (let j = 0;j < assets.length;j++) {
                     // define asset path
                     const assetPath = subpath + '/js/' + assets[j]
@@ -230,7 +324,7 @@ module.exports = (grunt) => {
         }
 
         // define modules
-        const modules = templates[template].modules
+        const modules = templates[template].modules === undefined ? [] : templates[template].modules
         for (let index = 0;index < modules.length;index++) {
             // define each module path
             const path = config.templates.modules.path + '/' + modules[index].name + '/' + modules[index].type
@@ -239,7 +333,7 @@ module.exports = (grunt) => {
             const package = require('./' + path + '/package.js')
 
             // 01. setup npm - SCSS
-            let npms = package.styles.npm
+            let npms = package.styles.npm === undefined ? [] : package.styles.npm
             for (let i = 0;i < npms.length;i++) {
                 if (SCSS_NPM.indexOf(npms[i]) === -1) {
                     SCSS_NPM.push(npms[i])
@@ -247,30 +341,59 @@ module.exports = (grunt) => {
             }
 
             // 01. setup npm - JS
-            npms = package.scripts.npm
+            npms = package.scripts.npm === undefined ? [] : package.scripts.npm
             for (let i = 0;i < npms.length;i++) {
                 if (JS_NPM.indexOf(npms[i]) === -1) {
                     JS_NPM.push(npms[i])
                 }
             }
 
-            // 02. setup helpers - SCSS
-            let helpers = package.styles.helpers
+            // 02. setup helpers
+            let helpers = package.helpers === undefined ? [] : package.helpers
             for (let i = 0;i < helpers.length;i++) {
                 // define helper path
-                const helper = config.templates.helpers.path + '/' + helpers[i].name + '/' + helpers[i].type + '/style.scss'
-                if (SCSS_helpers.indexOf(helper) === -1) {
-                    SCSS_helpers.push(helper)
-                }
-            }
+                const helper = config.templates.helpers.path + '/' + helpers[i].name + '/' + helpers[i].type
 
-            // 02. setup helpers - JS
-            helpers = package.scripts.helpers
-            for (let i = 0;i < helpers.length;i++) {
-                // define helper path
-                const helper = config.templates.helpers.path + '/' + helpers[i].name + '/' + helpers[i].type + '/script.js'
-                if (JS_helpers.indexOf(helper) === -1) {
-                    JS_helpers.push(helper)
+                for (let j = 0;j < helpers.length;j++) {
+                    // define helper path
+                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
+
+                    // define helper package
+                    const helperPackage = require('./' + helperPath + '/package.js')
+
+                    // define helper npm - styles
+                    let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
+                    for (let k = 0;k < styles.length;k++) {
+                        if (SCSS_NPM.indexOf(styles[k]) === -1) {
+                            SCSS_NPM.push(styles[k])
+                        }
+                    }
+
+                    // define helper main - styles
+                    styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
+                    for (let k = 0;k < styles.length;k++) {
+                        const helperStylePath = helperPath + '/scss/' + styles[k]
+                        if (SCSS_helpers.indexOf(helperStylePath) === -1) {
+                            SCSS_helpers.push(helperStylePath)
+                        }
+                    }
+
+                    // define helper npm - scripts
+                    let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
+                    for (let k = 0;k < scripts.length;k++) {
+                        if (JS_NPM.indexOf(scripts[k]) === -1) {
+                            JS_NPM.push(scripts[k])
+                        }
+                    }
+
+                    // define helper main - scripts
+                    scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
+                    for (let k = 0;k < scripts.length;k++) {
+                        const helperScriptPath = helperPath + '/js/' + scripts[k]
+                        if (JS_helpers.indexOf(helperScriptPath) === -1) {
+                            JS_helpers.push(helperScriptPath)
+                        }
+                    }
                 }
             }
 
@@ -294,7 +417,7 @@ module.exports = (grunt) => {
                     const subpackage = require('./' + subpath + '/package.js')
 
                     // 03.1. setup component npm - SCSS
-                    let npms = subpackage.styles.npm
+                    let npms = subpackage.styles.npm === undefined ? [] : subpackage.styles.npm
                     for (let j = 0;j < npms.length;j++) {
                         if (SCSS_NPM.indexOf(npms[j]) === -1) {
                             SCSS_NPM.push(npms[j])
@@ -302,35 +425,59 @@ module.exports = (grunt) => {
                     }
 
                     // 03.1. setup component npm - JS
-                    npms = subpackage.scripts.npm
+                    npms = subpackage.scripts.npm === undefined ? [] : subpackage.scripts.npm
                     for (let j = 0;j < npms.length;j++) {
                         if (JS_NPM.indexOf(npms[j]) === -1) {
                             JS_NPM.push(npms[j])
                         }
                     }
 
-                    // 03.2. setup component helpers - SCSS
-                    let helpers = subpackage.styles.helpers
+                    // 03.2. setup component helpers
+                    let helpers = subpackage.helpers === undefined ? [] : subpackage.helpers
                     for (let j = 0;j < helpers.length;j++) {
                         // define helper path
-                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/style.scss'
-                        if (SCSS_helpers.indexOf(helperPath) === -1) {
-                            SCSS_helpers.push(helperPath)
+                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
+    
+                        // define helper package
+                        const helperPackage = require('./' + helperPath + '/package.js')
+    
+                        // define helper npm - styles
+                        let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
+                        for (let k = 0;k < styles.length;k++) {
+                            if (SCSS_NPM.indexOf(styles[k]) === -1) {
+                                SCSS_NPM.push(styles[k])
+                            }
                         }
-                    }
-
-                    // 03.2. setup component helpers - JS
-                    helpers = subpackage.scripts.helpers
-                    for (let j = 0;j < helpers.length;j++) {
-                        // define helper path
-                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type + '/script.js'
-                        if (JS_helpers.indexOf(helperPath) === -1) {
-                            JS_helpers.push(helperPath)
+    
+                        // define helper main - styles
+                        styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
+                        for (let k = 0;k < styles.length;k++) {
+                            const helperStylePath = helperPath + '/scss/' + styles[k]
+                            if (SCSS_helpers.indexOf(helperStylePath) === -1) {
+                                SCSS_helpers.push(helperStylePath)
+                            }
+                        }
+    
+                        // define helper npm - scripts
+                        let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
+                        for (let k = 0;k < scripts.length;k++) {
+                            if (JS_NPM.indexOf(scripts[k]) === -1) {
+                                JS_NPM.push(scripts[k])
+                            }
+                        }
+    
+                        // define helper main - scripts
+                        scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
+                        for (let k = 0;k < scripts.length;k++) {
+                            const helperScriptPath = helperPath + '/js/' + scripts[k]
+                            if (JS_helpers.indexOf(helperScriptPath) === -1) {
+                                JS_helpers.push(helperScriptPath)
+                            }
                         }
                     }
 
                     // 04. setup component assets - SCSS
-                    let assets = subpackage.styles.main
+                    let assets = subpackage.styles.main === undefined ? [] : subpackage.styles.main
                     for (let j = 0;j < assets.length;j++) {
                         // define asset path
                         const assetPath = subpath + '/scss/' + assets[j]
@@ -340,7 +487,7 @@ module.exports = (grunt) => {
                     }
 
                     // 04. setup component assets - JS
-                    assets = subpackage.scripts.main
+                    assets = subpackage.scripts.main === undefined ? [] : subpackage.scripts.main
                     for (let j = 0;j < assets.length;j++) {
                         // define asset path
                         const assetPath = subpath + '/js/' + assets[j]
@@ -352,13 +499,13 @@ module.exports = (grunt) => {
             }
 
             // 04. setup assets - SCSS
-            let assets = package.styles.main
+            let assets = package.styles.main === undefined ? [] : package.styles.main
             for (let i = 0;i < assets.length;i++) {
                 SCSS_assets.push(path + '/scss/' + assets[i])
             }
 
             // 04. setup assets - JS
-            assets = package.scripts.main
+            assets = package.scripts.main === undefined ? [] : package.scripts.main
             for (let i = 0;i < assets.length;i++) {
                 JS_assets.push(path + '/js/' + assets[i])
             }

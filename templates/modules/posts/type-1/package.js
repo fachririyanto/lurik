@@ -11,17 +11,19 @@ module.exports = {
         version: "1.0.0"
     },
     npm: [],
+    helpers: [
+        { name: "background-cover", type: "type-1" },
+        { name: "position-layout", type: "type-1" }
+    ],
     components: [
         { name: "block-header", type: [ "type-1" ] }
     ],
     scripts: {
         npm: [],
-        helpers: [],
         main: []
     },
     styles: {
         npm: [],
-        helpers: [],
         main: [
             "style.scss"
         ]

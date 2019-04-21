@@ -13,7 +13,6 @@ module.exports = {
             scss: [
                 'templates/_core/scss/vendor/css3-mixins.scss',
                 'templates/_core/scss/variable.scss',
-                'templates/_core/scss/utilities.scss',
                 'templates/_core/scss/style.scss'
             ],
             js: [

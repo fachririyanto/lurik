@@ -13,6 +13,10 @@ module.exports = {
     npm: [
         "owl.carousel"
     ],
+    helpers: [
+        { name: "background-cover", type: "type-1" },
+        { name: "position-layout", type: "type-1" }
+    ],
     components: [
         { name: "block-header", type: [ "type-1" ] }
     ],
@@ -20,7 +24,6 @@ module.exports = {
         npm: [
             "node_modules/owl.carousel/dist/owl.carousel.min.js"
         ],
-        helpers: [],
         main: [
             "script.js"
         ]
@@ -29,7 +32,6 @@ module.exports = {
         npm: [
             "node_modules/owl.carousel/dist/assets/owl.carousel.min.css"
         ],
-        helpers: [],
         main: [
             "style.scss"
         ]
