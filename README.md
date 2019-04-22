@@ -8,7 +8,7 @@
 
 Selain itu, dengan Lurik, script yang diload/didownload pada setiap template hanya yang dibutuhkan oleh template tersebut saja. Sehingga load website akan lebih cepat.
 
-Di BINUS University, sistem Lurik sudah dikembangkan dalam bentuk WordPress Theme untuk pengembangan website-website yang ada di BINUS. Salah satu contoh yang sudah menggunakan sistem Lurik adalah [Sokrate.id](http://sokrates.id).
+Di BINUS University, sistem Lurik sudah dikembangkan dalam bentuk WordPress Theme untuk pengembangan website-website yang ada di BINUS. Salah satu contoh yang sudah menggunakan sistem Lurik adalah [Sokrates.id](http://sokrates.id).
 
 
 ### Struktur Lurik
