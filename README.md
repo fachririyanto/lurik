@@ -3,15 +3,15 @@
 
 -----
 
-### Apa itu Lurik?
-**Lurik** adalah framework berbasis konfigurasi dengan bahasa JavaScript. Lurik ini adalah hasil riset saya di BINUS University yang bertujuan agar template-template yang sudah dibuat dapat digunakan kembali dengan mudah, dibuat secara modular (bongkar-pasang).
+### What is Lurik?
+**Lurik** adalah framework berbasis konfigurasi dengan bahasa JavaScript yang digunakan untuk membuat website statis. Lurik ini adalah hasil riset saya di BINUS University yang bertujuan agar template-template yang sudah dibuat dapat digunakan kembali dengan mudah, dibuat secara modular (bongkar-pasang).
 
 Selain itu, dengan Lurik, script yang diload/didownload pada setiap template hanya yang dibutuhkan oleh template tersebut saja. Sehingga load website akan lebih cepat.
 
 Di BINUS University, sistem Lurik sudah dikembangkan dalam bentuk WordPress Theme untuk pengembangan website-website yang ada di BINUS. Salah satu contoh yang sudah menggunakan sistem Lurik adalah [Sokrates.id](http://sokrates.id).
 
 
-### Struktur Lurik
+### Lurik Core
 Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*.
 
 - **Core**\
@@ -31,6 +31,8 @@ Kode-kode yang sifatnya bantuan saja. Contohnya adalah seperti kode untuk format
 - **Modules**, Potongan-potongan layout untuk membentuk sebuah template website. Contoh *modules* yaitu *header*, *footer*, *why-us*, dan sebagainya.
 
 -----
+
+### Get Started
 
 **00. Requirements**
 
@@ -101,7 +103,7 @@ Coming soon!!
 
 -----
 
-**07. Registering Scripts**
+**07. Registering Templates**
 
 Coming soon!!
 
