@@ -15,13 +15,12 @@ module.exports = {
      */
     core: {
         scss: [
-            'templates/_core/scss/vendor/css3-mixins.scss',
-            'templates/_core/scss/variable.scss',
-            'templates/_core/scss/utilities.scss',
-            'templates/_core/scss/style.scss'
+            "templates/_core/scss/vendor/css3-mixins.scss",
+            "templates/_core/scss/variable.scss",
+            "templates/_core/scss/style.scss"
         ],
         js: [
-            'templates/_core/js/script.js'
+            "templates/_core/js/script.js"
         ]
     },
 
@@ -68,8 +67,8 @@ module.exports = {
         other: {
             core: {
                 scss: [
-                    'templates/_core/scss/vendor/css3-mixins.scss',
-                    'templates/_core/scss/variable.scss'
+                    "templates/_core/scss/vendor/css3-mixins.scss",
+                    "templates/_core/scss/variable.scss"
                 ],
                 js: []
             },
