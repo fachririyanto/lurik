@@ -26,6 +26,8 @@ module.exports = {
 
     /**
      * Setup templates.
+     * Each template name would be generated a CSS file.
+     * For example, "home" template would be generate "home.css" file, etc.
      */
     templates: {
         /**
