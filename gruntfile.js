@@ -260,43 +260,46 @@ module.exports = (grunt) => {
                 // 03.2. setup component helpers
                 let helpers = subpackage.helpers === undefined ? [] : subpackage.helpers
                 for (let j = 0;j < helpers.length;j++) {
-                    // define helper path
-                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
+                    // loop helper types
+                    for (let l = 0;l < helpers[j].type.length;l++) {
+                        // define helper path
+                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type[l]
 
-                    // define helper package
-                    const helperPackage = require('./' + helperPath + '/package.js')
+                        // define helper package
+                        const helperPackage = require('./' + helperPath + '/package.js')
 
-                    // define helper npm - styles
-                    let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
-                    for (let k = 0;k < styles.length;k++) {
-                        if (SCSS_NPM.indexOf(styles[k]) === -1) {
-                            SCSS_NPM.push(styles[k])
+                        // define helper npm - styles
+                        let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
+                        for (let k = 0;k < styles.length;k++) {
+                            if (SCSS_NPM.indexOf(styles[k]) === -1) {
+                                SCSS_NPM.push(styles[k])
+                            }
                         }
-                    }
 
-                    // define helper main - styles
-                    styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
-                    for (let k = 0;k < styles.length;k++) {
-                        const helperStylePath = helperPath + '/scss/' + styles[k]
-                        if (SCSS_helpers.indexOf(helperStylePath) === -1) {
-                            SCSS_helpers.push(helperStylePath)
+                        // define helper main - styles
+                        styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
+                        for (let k = 0;k < styles.length;k++) {
+                            const helperStylePath = helperPath + '/scss/' + styles[k]
+                            if (SCSS_helpers.indexOf(helperStylePath) === -1) {
+                                SCSS_helpers.push(helperStylePath)
+                            }
                         }
-                    }
 
-                    // define helper npm - scripts
-                    let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
-                    for (let k = 0;k < scripts.length;k++) {
-                        if (JS_NPM.indexOf(scripts[k]) === -1) {
-                            JS_NPM.push(scripts[k])
+                        // define helper npm - scripts
+                        let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
+                        for (let k = 0;k < scripts.length;k++) {
+                            if (JS_NPM.indexOf(scripts[k]) === -1) {
+                                JS_NPM.push(scripts[k])
+                            }
                         }
-                    }
 
-                    // define helper main - scripts
-                    scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
-                    for (let k = 0;k < scripts.length;k++) {
-                        const helperScriptPath = helperPath + '/js/' + scripts[k]
-                        if (JS_helpers.indexOf(helperScriptPath) === -1) {
-                            JS_helpers.push(helperScriptPath)
+                        // define helper main - scripts
+                        scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
+                        for (let k = 0;k < scripts.length;k++) {
+                            const helperScriptPath = helperPath + '/js/' + scripts[k]
+                            if (JS_helpers.indexOf(helperScriptPath) === -1) {
+                                JS_helpers.push(helperScriptPath)
+                            }
                         }
                     }
                 }
@@ -351,47 +354,47 @@ module.exports = (grunt) => {
             // 02. setup helpers
             let helpers = package.helpers === undefined ? [] : package.helpers
             for (let i = 0;i < helpers.length;i++) {
-                // define helper path
-                const helper = config.templates.helpers.path + '/' + helpers[i].name + '/' + helpers[i].type
-
                 for (let j = 0;j < helpers.length;j++) {
-                    // define helper path
-                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
+                    // loop helper types
+                    for (let l = 0;l < helpers[j].type.length;l++) {
+                        // define helper path
+                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type[l]
 
-                    // define helper package
-                    const helperPackage = require('./' + helperPath + '/package.js')
+                        // define helper package
+                        const helperPackage = require('./' + helperPath + '/package.js')
 
-                    // define helper npm - styles
-                    let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
-                    for (let k = 0;k < styles.length;k++) {
-                        if (SCSS_NPM.indexOf(styles[k]) === -1) {
-                            SCSS_NPM.push(styles[k])
+                        // define helper npm - styles
+                        let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
+                        for (let k = 0;k < styles.length;k++) {
+                            if (SCSS_NPM.indexOf(styles[k]) === -1) {
+                                SCSS_NPM.push(styles[k])
+                            }
                         }
-                    }
 
-                    // define helper main - styles
-                    styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
-                    for (let k = 0;k < styles.length;k++) {
-                        const helperStylePath = helperPath + '/scss/' + styles[k]
-                        if (SCSS_helpers.indexOf(helperStylePath) === -1) {
-                            SCSS_helpers.push(helperStylePath)
+                        // define helper main - styles
+                        styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
+                        for (let k = 0;k < styles.length;k++) {
+                            const helperStylePath = helperPath + '/scss/' + styles[k]
+                            if (SCSS_helpers.indexOf(helperStylePath) === -1) {
+                                SCSS_helpers.push(helperStylePath)
+                            }
                         }
-                    }
 
-                    // define helper npm - scripts
-                    let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
-                    for (let k = 0;k < scripts.length;k++) {
-                        if (JS_NPM.indexOf(scripts[k]) === -1) {
-                            JS_NPM.push(scripts[k])
+                        // define helper npm - scripts
+                        let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
+                        for (let k = 0;k < scripts.length;k++) {
+                            if (JS_NPM.indexOf(scripts[k]) === -1) {
+                                JS_NPM.push(scripts[k])
+                            }
                         }
-                    }
 
-                    // define helper main - scripts
-                    scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
-                    for (let k = 0;k < scripts.length;k++) {
-                        const helperScriptPath = helperPath + '/js/' + scripts[k]
-                        if (JS_helpers.indexOf(helperScriptPath) === -1) {
-                            JS_helpers.push(helperScriptPath)
+                        // define helper main - scripts
+                        scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
+                        for (let k = 0;k < scripts.length;k++) {
+                            const helperScriptPath = helperPath + '/js/' + scripts[k]
+                            if (JS_helpers.indexOf(helperScriptPath) === -1) {
+                                JS_helpers.push(helperScriptPath)
+                            }
                         }
                     }
                 }
@@ -404,7 +407,6 @@ module.exports = (grunt) => {
             } else {
                 components = package.components
             }
-            // components = components.concat(templates[template].components)
             for (let i = 0;i < components.length;i++) {
                  // get component type
                 let types = components[i].type

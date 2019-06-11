@@ -12,8 +12,8 @@ module.exports = {
     },
     npm: [],
     helpers: [
-        { name: "background-cover", type: "type-1" },
-        { name: "position-layout", type: "type-1" }
+        { name: "background-cover", type: [ "type-1" ] },
+        { name: "position-layout", type: [ "type-1" ] }
     ],
     components: [
         { name: "block-header", type: [ "type-1" ] }

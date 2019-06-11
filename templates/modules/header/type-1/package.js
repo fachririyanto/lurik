@@ -13,7 +13,7 @@ module.exports = {
     npm: [],
     components: [],
     helpers: [
-        { name: "text-align", type: "type-1" }
+        { name: "text-align", type: [ "type-1" ] }
     ],
     scripts: {
         npm: [],
