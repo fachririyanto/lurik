@@ -38,31 +38,31 @@ Before installing Lurik, make sure you have installed the following software:
 **01. Installation**
 
 Open terminal and point it to Lurik folder and then type:\
-*npm install*
+```npm install```
 
 Next, type code below to installing a template:\
-*grunt compile:client-name*
+```grunt compile:client-name```
 
 As an example, you can type:\
-*grunt compile:lurik*
+```grunt compile:lurik```
 
-Because we already create an example template called "lurik". For the configuration, you can see file “settings/clients/lurik.json”.
+Because we already create an example template called "lurik". For the configuration, you can see file “[settings/clients/lurik.json](https://github.com/fachririyanto/lurik/blob/master/settings/clients/lurik.json)”.
 
 -----
 
 **02. Main Command**
 
 For installign client for the first time, type:\
-*grunt compile:client-name*
+```grunt compile:client-name```
 
 For downloading NPM modules which used by components, helpers or modules, type:\
-*grunt compile-npm:client-name*
+```grunt compile-npm:client-name```
 
 If you just want to compiling a client scripts or styles, type:\
-*grunt compile-templates:client-name*
+```grunt compile-templates:client-name```
 
 And if you just want to compiling an icons which used by client, type:\
-*grunt compile-icons:client-name*
+```grunt compile-icons:client-name```
 
 ------
 
