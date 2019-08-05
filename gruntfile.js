@@ -1,72 +1,183 @@
 /**
  * Setup engine using Grunt.
  * @author Fachri Riyanto
- * @version 1.0.0
+ * @version 0.0.1
  */
 module.exports = (grunt) => {
 
     /**
-     * Install NPM modules.
-     * @since 1.0.0
+     * Get helper path.
+     * @param {Object} helper { name, type }
+     * @return {String} path
+     * @since 0.0.1
      */
-    grunt.registerTask('install-npm', 'Install NPM modules.', (ID) => {
-        if (ID === undefined) return
-
-        // get client config
-        const client = require('./settings/clients/' + ID)
-
-        // get main config
+    const getHelperPath = (helper) => {
         const config = require('./settings/config')
+        const path   = config.path.helpers
+        return path + '/' + helper.name + '/' + helper.type
+    }
 
-        // define templates
-        const templates = client.templates
+    /**
+     * Get component path.
+     * @param {Object} component { name, type }
+     * @return {String} path
+     * @since 0.0.1
+     */
+    const getComponentPath = (component) => {
+        const config = require('./settings/config')
+        const path   = config.path.components
+        return path + '/' + component.name + '/' + component.type
+    }
 
-        // create NPM list object
-        let NPM_list = []
+    /**
+     * Get module path.
+     * @param {Object} module { name, type }
+     * @return {String} path
+     * @since 0.0.1
+     */
+    const getModulePath = (mod) => {
+        const config = require('./settings/config')
+        const path   = config.path.modules
+        return path + '/' + mod.name + '/' + mod.type
+    }
 
-        // loop templates
+    /**
+     * Get helper package path.
+     * @param {Object} helper { name, type }
+     * @return {String} path
+     * @since 0.0.1
+     */
+    const getHelperPackagePath = (helper) => {
+        return getHelperPath(helper) + '/package.json'
+    }
+
+    /**
+     * Get component package path.
+     * @param {Object} component { name, type }
+     * @return {String} path
+     * @since 0.0.1
+     */
+    const getComponentPackagePath = (component) => {
+        return getComponentPath(component) + '/package.json'
+    }
+
+    /**
+     * Get module package path.
+     * @param {Object} module { name, type }
+     * @return {String} path
+     * @since 0.0.1
+     */
+    const getModulePackagePath = (mod) => {
+        return getModulePath(mod) + '/package.json'
+    }
+
+    /**
+     * Install client.
+     * @param {String} client
+     * @param {String} template
+     * @since 0.0.1
+     */
+    grunt.registerTask('compile', 'Install client templates.', (client, template) => {
+        if (client === undefined) return
+        if (template === undefined) {
+            /**
+             * Install all templates.
+             */
+            grunt.task.run([
+                'compile-npm:' + client,
+                'compile-templates:' + client,
+                'compile-icons:' + client
+            ])
+        } else {
+            /**
+             * Install specific template.
+             */
+            grunt.task.run([
+                'compile-npm:' + client + ':' + template,
+                'compile-templates:' + client + ':' + template,
+                'compile-icons:' + client + ':' + template
+            ])
+        }
+    })
+
+    /**
+     * Compile client NPM modules.
+     * @param {String} client
+     * @param {String} template
+     * @since 0.0.1
+     */
+    grunt.registerTask('compile-npm', 'Installing NPM modules.', (client, template) => {
+        if (client === undefined) return
+
+        /**
+         * Client config.
+         */
+        const clientConfig = require('./settings/clients/' + client)
+
+        /**
+         * Create NPM modules list object.
+         * @var {Array}
+         */
+        let NPMs = []
+
+        /**
+         * Loop each template.
+         */
+        const templates = clientConfig.templates
         for (let index in templates) {
             /**
-             * Setup NPM - components.
+             * If want to install specific templates.
+             */
+            if (template !== undefined && template !== index) continue
+
+            /**
+             * Install from components.
              */
             const components = templates[index].components === undefined ? [] : templates[index].components
-
             for (let i = 0;i < components.length;i++) {
-                // get component type
-                let types = components[i].type
+                /**
+                 * Define component types.
+                 */
+                const componentTypes = components[i].type
+                for (let type in componentTypes) {
+                    /**
+                     * Get component package.
+                     */
+                    const package = require('./' + getComponentPackagePath({
+                        name: components[i].name,
+                        type: componentTypes[type]
+                    }))
 
-                for (let a = 0;a < types.length;a++) {
-                    // define component path
-                    const path = config.templates.components.path + '/' + components[i].name + '/' + types[a]
-
-                    // get module package
-                    const package = require('./' + path + '/package.js')
-
-                    // add NPM
-                    let npm = package.npm === undefined ? [] : package.npm
-                    for (let j = 0;j < npm.length;j++) {
-                        if (NPM_list.indexOf(npm[j]) === -1) {
-                            NPM_list.push(npm[j])
-                        }
+                    /**
+                     * Update NPM modules.
+                     */
+                    if (package.npm !== undefined) {
+                        NPMs = NPMs.concat(package.npm)
                     }
 
                     /**
-                     * Setup NPM - component helpers.
+                     * Update NPM modules from component helpers.
                      */
-                    const helpers = package.helpers === undefined ? [] : package.helpers
+                    const componentHelpers = package.helpers === undefined ? [] : package.helpers
+                    for (let j = 0;j < componentHelpers;j++) {
+                        /**
+                         * Define helper type.
+                         */
+                        const helperTypes = componentHelpers[j].type
+                        for (let type in helperTypes) {
+                            /**
+                             * Get helper package.
+                             */
+                            const helperPackage = require('./' + getHelperPackagePath({
+                                name: componentHelpers[j].name,
+                                type: helperTypes[type]
+                            }))
 
-                    for (let j = 0;j < helpers.length;j++) {
-                        // define helper path
-                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
-
-                        // get helper package
-                        const helperPackage = require('./' + helperPath + '/package.js')
-
-                        // get helper npm
-                        let helperNPM = helperPackage.npm
-                        for (let k = 0;k < helperNPM.length;k++) {
-                            if (NPM_list.indexOf(helperNPM[k]) === -1) {
-                                NPM_list.push(helperNPM[k])
+                            /**
+                             * Update NPM modules.
+                             */
+                            if (helperPackage.npm !== undefined) {
+                                NPMs = NPMs.concat(helperPackage.npm)
                             }
                         }
                     }
@@ -74,85 +185,94 @@ module.exports = (grunt) => {
             }
 
             /**
-             * Setup NPM - modules.
+             * Install from modules.
              */
             const modules = templates[index].modules === undefined ? [] : templates[index].modules
-
             for (let i = 0;i < modules.length;i++) {
-                // define module path
-                const path = config.templates.modules.path + '/' + modules[i].name + '/' + modules[i].type
+                /**
+                 * Get module package.
+                 */
+                const package = require('./' + getModulePackagePath(modules[i]))
 
-                // get module package
-                const package = require('./' + path + '/package.js')
-
-                // add NPM
-                let npm = package.npm === undefined ? [] : package.npm
-                for (let j = 0;j < npm.length;j++) {
-                    if (NPM_list.indexOf(npm[j]) === -1) {
-                        NPM_list.push(npm[j])
-                    }
+                /**
+                 * Update NPM modules.
+                 */
+                if (package.npm !== undefined) {
+                    NPMs = NPMs.concat(package.npm)
                 }
 
                 /**
-                 * Setup NPM - helpers.
+                 * Update NPM modules from module helpers.
                  */
-                const helpers = package.helpers === undefined ? [] : package.helpers
-
-                for (let j = 0;j < helpers.length;j++) {
-                    // define helper path
-                    const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
-
-                    // get helper package
-                    const helperPackage = require('./' + helperPath + '/package.js')
-
-                    // get helper npm
-                    let helperNPM = helperPackage.npm === undefined ? [] : helperPackage.npm
-                    for (let k = 0;k < helperNPM.length;k++) {
-                        if (NPM_list.indexOf(helperNPM[k]) === -1) {
-                            NPM_list.push(helperNPM[k])
-                        }
-                    }
-                }
-
-                /**
-                 * Setup NPM - components.
-                 */
-                let subcomponents = package.components
-                if (modules[i].components !== undefined) {
-                    subcomponents = modules[i].components
-                }
-                for (let j = 0;j < subcomponents.length;j++) {
-                    // define component path
-                    const subpath = config.templates.components.path + '/' + subcomponents[j].name + '/' + subcomponents[j].type
-
-                    // get component package
-                    const subpackage = require('./' + subpath + '/package.js')
-
-                    // add NPM
-                    npm = subpackage.npm === undefined ? [] : subpackage.npm
-                    for (let j = 0;j < npm.length;j++) {
-                        if (NPM_list.indexOf(npm[j]) === -1) {
-                            NPM_list.push(npm[j])
-                        }
-                    }
+                const moduleHelpers = package.helpers === undefined ? [] : package.helpers
+                for (let j = 0;j < moduleHelpers;j++) {
+                    /**
+                     * Get helper package.
+                     */
+                    const helperPackage = require('./' + getHelperPackagePath(moduleHelpers[j]))
 
                     /**
-                     * Setup NPM - component helpers.
+                     * Update NPM modules.
                      */
-                    const helpers = subpackage.helpers === undefined ? [] : subpackage.helpers
+                    if (helperPackage.npm !== undefined) {
+                        NPMs = NPMs.concat(helperPackage.npm)
+                    }
+                }
 
-                    for (let k = 0;k < helpers.length;k++) {
-                        // define helper path
-                        const helperPath = config.templates.helpers.path + '/' + helpers[k].name + '/' + helpers[k].type
+                /**
+                 * Update NPM modules from components.
+                 */
+                let moduleComponents = []
+                if (modules[i].components === undefined) {
+                    moduleComponents = package.components === undefined ? [] : package.components
+                } else {
+                    moduleComponents = modules[i].components
+                }
+                for (let j = 0;j < moduleComponents.length;j++) {
+                    /**
+                     * Define component type.
+                     */
+                    const componentTypes = moduleComponents[j].type
+                    for (let type in componentTypes) {
+                        /**
+                         * Get component package.
+                         */
+                        const componentPackage = require('./' + getComponentPackagePath({
+                            name: moduleComponents[j].name,
+                            type: componentTypes[type]
+                        }))
 
-                        // get helper package
-                        const helperPackage = require('./' + helperPath + '/package.js')
+                        /**
+                         * Update NPM modules.
+                         */
+                        if (componentPackage.npm !== undefined) {
+                            NPMs = NPMs.concat(componentPackage.npm)
+                        }
 
-                        // get helper npm
-                        let helperNPM = helperPackage.npm === undefined ? [] : helperPackage.npm
-                        for (let l = 0;l < helperNPM.length;l++) {
-                            if (NPM_list.indexOf(helperNPM[l]) === -1) {
-                                NPM_list.push(helperNPM[l])
+                        /**
+                         * Update NPM modules from component helpers.
+                         */
+                        const componentHelpers = componentPackage.helpers === undefined ? [] : componentPackage.helpers
+                        for (let j = 0;j < componentHelpers.length;j++) {
+                            /**
+                             * Define helper type.
+                             */
+                            const helperTypes = componentHelpers[j].type
+                            for (let type in helperTypes) {
+                                /**
+                                 * Get helper package.
+                                 */
+                                const helperPackage = require('./' + getHelperPackagePath({
+                                    name: componentHelpers[j].name,
+                                    type: helperTypes[type]
+                                }))
+            
+                                /**
+                                 * Update NPM modules.
+                                 */
+                                if (helperPackage.npm !== undefined) {
+                                    NPMs = NPMs.concat(helperPackage.npm)
+                                }
                             }
                         }
                     }
@@ -160,390 +280,834 @@ module.exports = (grunt) => {
             }
         }
 
-        // validate NPM list
-        if (NPM_list.length === 0) {
-            console.log('No NPM module to install.')
+        /**
+         * Validate NPM modules.
+         */
+        if (NPMs.length === 0) {
+            console.log('No NPM modules to install.')
             return
         }
 
-        // load module
+        /**
+         * Create grunt config.
+         */
         grunt.loadNpmTasks('grunt-exec')
-
-        // setup config
         grunt.initConfig({
             exec: {
                 npm: {
-                    cmd: 'npm i --no-save ' + NPM_list.join(' ')
+                    cmd: 'npm i --no-save ' + NPMs.join(' ')
                 }
             }
         })
 
-        // run task
+        /**
+         * Run task.
+         */
         grunt.task.run('exec')
     })
 
     /**
-     * Compile template scripts.
-     * @param {String} ID Client ID.
-     * @param {String} template Template name.
-     * @since 1.0.0
+     * Compile single template icons.
+     * @param {String} client
+     * @param {String} template
+     * @since 0.0.1
      */
-    grunt.registerTask('compile-template', 'Compile template scripts.', (ID, template) => {
-        if (ID === undefined) return
+    grunt.registerTask('compile-icon', 'Compiling icons using Grunticon.', (client, template) => {
+        if (client === undefined || template === undefined) return
 
-        // get client config
-        const client = require('./settings/clients/' + ID)
-
-        // get main config
+        /**
+         * Define client configuration.
+         */
         const config = require('./settings/config')
+        const clientConfig = require('./settings/clients/' + client)
 
-        // define templates
-        const templates = client.templates
+        /**
+         * Get templates list.
+         */
+        const templates = clientConfig.templates
 
-        // get core
-        let core = client.core
-        if (templates[template].core !== undefined) {
-            core = templates[template].core
-        }
+        /**
+         * Create icons list object.
+         * @var {Array}
+         */
+        let Icons = []
 
-        // create SCSS object
-        let SCSS = config.compiler.core.scss
-        if (core !== undefined && core.scss !== undefined) {
-            SCSS = core.scss
-        }
-
-        // create SCSS assets object
-        let SCSS_assets = []
-        let SCSS_NPM = []
-        let SCSS_helpers = []
-
-        // create JS object
-        let JS = config.compiler.core.js
-        if (core !== undefined && core.js !== undefined) {
-            JS = core.js
-        }
-
-        // create JS assets object
-        let JS_assets = []
-        let JS_NPM = []
-        let JS_helpers = []
-
-        // define components
-        let components = templates[template].components === undefined ? [] : templates[template].components
+        /**
+         * Define icons from components.
+         */
+        const components = templates[template].components === undefined ? [] : templates[template].components
         for (let i = 0;i < components.length;i++) {
-            // get component type
-            let types = components[i].type
+            /**
+             * Define component type.
+             */
+            const componentTypes = components[i].type
+            for (let type in componentTypes) {
+                /**
+                 * Get component package.
+                 */
+                const package = require('./' + getComponentPackagePath({
+                    name: components[i].name,
+                    type: componentTypes[type]
+                }))
 
-            for (let a = 0;a < types.length;a++) {
-                // define component path
-                const subpath = config.templates.components.path + '/' + components[i].name + '/' + types[a]
-
-                // get component package
-                const subpackage = require('./' + subpath + '/package.js')
-
-                // 03.1. setup component npm - SCSS
-                let npms = subpackage.styles.npm === undefined ? [] : subpackage.styles.npm
-                for (let j = 0;j < npms.length;j++) {
-                    if (SCSS_NPM.indexOf(npms[j]) === -1) {
-                        SCSS_NPM.push(npms[j])
-                    }
-                }
-
-                // 03.1. setup component npm - JS
-                npms = subpackage.scripts.npm === undefined ? [] : subpackage.scripts.npm
-                for (let j = 0;j < npms.length;j++) {
-                    if (JS_NPM.indexOf(npms[j]) === -1) {
-                        JS_NPM.push(npms[j])
-                    }
-                }
-
-                // 03.2. setup component helpers
-                let helpers = subpackage.helpers === undefined ? [] : subpackage.helpers
-                for (let j = 0;j < helpers.length;j++) {
-                    // loop helper types
-                    for (let l = 0;l < helpers[j].type.length;l++) {
-                        // define helper path
-                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type[l]
-
-                        // define helper package
-                        const helperPackage = require('./' + helperPath + '/package.js')
-
-                        // define helper npm - styles
-                        let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
-                        for (let k = 0;k < styles.length;k++) {
-                            if (SCSS_NPM.indexOf(styles[k]) === -1) {
-                                SCSS_NPM.push(styles[k])
-                            }
+                /**
+                 * Update icons list.
+                 */
+                if (package.icons !== undefined) {
+                    for (let icon in package.icons) {
+                        if (Icons.indexOf(package.icons[icon]) === -1) {
+                            Icons.push(package.icons[icon])
                         }
-
-                        // define helper main - styles
-                        styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
-                        for (let k = 0;k < styles.length;k++) {
-                            const helperStylePath = helperPath + '/scss/' + styles[k]
-                            if (SCSS_helpers.indexOf(helperStylePath) === -1) {
-                                SCSS_helpers.push(helperStylePath)
-                            }
-                        }
-
-                        // define helper npm - scripts
-                        let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
-                        for (let k = 0;k < scripts.length;k++) {
-                            if (JS_NPM.indexOf(scripts[k]) === -1) {
-                                JS_NPM.push(scripts[k])
-                            }
-                        }
-
-                        // define helper main - scripts
-                        scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
-                        for (let k = 0;k < scripts.length;k++) {
-                            const helperScriptPath = helperPath + '/js/' + scripts[k]
-                            if (JS_helpers.indexOf(helperScriptPath) === -1) {
-                                JS_helpers.push(helperScriptPath)
-                            }
-                        }
-                    }
-                }
-
-                // 04. setup component assets - SCSS
-                let assets = subpackage.styles.main === undefined ? [] : subpackage.styles.main
-                for (let j = 0;j < assets.length;j++) {
-                    // define asset path
-                    const assetPath = subpath + '/scss/' + assets[j]
-                    if (SCSS_assets.indexOf(assetPath) === -1) {
-                        SCSS_assets.push(assetPath)
-                    }
-                }
-
-                // 04. setup component assets - JS
-                assets = subpackage.scripts.main === undefined ? [] : subpackage.scripts.main
-                for (let j = 0;j < assets.length;j++) {
-                    // define asset path
-                    const assetPath = subpath + '/js/' + assets[j]
-                    if (JS_assets.indexOf(assetPath) === -1) {
-                        JS_assets.push(assetPath)
                     }
                 }
             }
         }
 
-        // define modules
+        /**
+         * Define icons from modules.
+         */
         const modules = templates[template].modules === undefined ? [] : templates[template].modules
-        for (let index = 0;index < modules.length;index++) {
-            // define each module path
-            const path = config.templates.modules.path + '/' + modules[index].name + '/' + modules[index].type
+        for (let i = 0;i < modules.length;i++) {
+            /**
+             * Get module package.
+             */
+            const package = require('./' + getModulePackagePath(modules[i]))
 
-            // get module package
-            const package = require('./' + path + '/package.js')
+            /**
+             * Update icons list.
+             */
+            if (package.icons !== undefined) {
+                Icons = Icons.concat(package.icons)
+            }
 
-            // 01. setup npm - SCSS
-            let npms = package.styles.npm === undefined ? [] : package.styles.npm
-            for (let i = 0;i < npms.length;i++) {
-                if (SCSS_NPM.indexOf(npms[i]) === -1) {
-                    SCSS_NPM.push(npms[i])
+            /**
+             * Update icons list from module components.
+             */
+            let moduleComponents = []
+            if (modules.components !== undefined) {
+                moduleComponents = modules.components
+            } else {
+                moduleComponents = package.components === undefined ? [] : package.components
+            }
+            for (let j = 0;j < moduleComponents.length;j++) {
+                /**
+                 * Define compone type.
+                 */
+                const componentTypes = moduleComponents[j].type
+                for (let type in componentTypes) {
+                    /**
+                     * Get component package.
+                     */
+                    const componentPackage = require('./' + getComponentPackagePath({
+                        name: moduleComponents[j].name,
+                        type: componentTypes[type]
+                    }))
+
+                    /**
+                     * Update icons list.
+                     */
+                    if (componentPackage.icons !== undefined) {
+                        for (let icon in componentPackage.icons) {
+                            if (Icons.indexOf(componentPackage.icons[icon]) === -1) {
+                                Icons.push(componentPackage.icons[icon])
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Append with external icons.
+         */
+        if (templates[template].icons !== undefined) {
+            for (let icon in templates[template].icons) {
+                if (Icons.indexOf(templates[template].icons[icon]) === -1) {
+                    Icons.push(templates[template].icons[icon])
+                }
+            }
+        }
+
+        /**
+         * Create grunt config for assets.
+         */
+        grunt.loadNpmTasks('grunt-grunticon')
+        grunt.initConfig({
+            grunticon: {
+                icons: {
+                    files: [
+                        {
+                            expand: true,
+                            cwd: config.path.icons,
+                            src: Icons,
+                            dest: 'assets/' + client + '/' + template + '/icons'
+                        }
+                    ],
+                    options: {
+                        enhanceSVG: true,
+                        cssprefix: '.',
+                        loadersnippet: 'grunticon.loader.js'
+                    }
+                }
+            }
+        })
+
+        /**
+         * Run task.
+         */
+        grunt.task.run('grunticon:icons')
+    })
+
+    /**
+     * Compile icons.
+     * @param {String} client
+     * @param {String} template
+     * @since 0.0.1
+     */
+    grunt.registerTask('compile-icons', 'Compiling icons using Grunticon.', (client, template) => {
+        if (client === undefined) return
+
+        /**
+         * Define client configuration.
+         */
+        const clientConfig = require('./settings/clients/' + client)
+
+        /**
+         * Loop templates.
+         */
+        const templates = clientConfig.templates
+        for (let index in templates) {
+            /**
+             * If want to install specific templates.
+             */
+            if (template !== undefined && template !== index) continue
+
+            /**
+             * Compiling single template.
+             */
+            grunt.task.run('compile-icon:' + client + ':' + index)
+        }
+    })
+
+    /**
+     * Compile single template.
+     * @param {String} client
+     * @param {String} template
+     * @since 0.0.1
+     */
+    grunt.registerTask('compile-template', 'Compiling single template.', (client, template) => {
+        if (client === undefined || template === undefined) return
+
+        /**
+         * Get config.
+         */
+        const config = require('./settings/config')
+        const clientConfig = require('./settings/clients/' + client)
+
+        /**
+         * Get templates list.
+         */
+        const templates = clientConfig.templates
+
+        /**
+         * Define files object.
+         * @var {Object}
+         */
+        let Global = {
+            core: {
+                scss: [],
+                js: []
+            },
+            npm: {
+                scss: [],
+                js: []
+            },
+            helpers: {
+                scss: [],
+                js: []
+            },
+            components: {
+                scss: [],
+                js: []
+            },
+            modules: {
+                scss: [],
+                js: []
+            },
+            external: {
+                scss: [],
+                js: []
+            }
+        }
+
+        /**
+         * Setup components.
+         */
+        const components = templates[template].components === undefined ? [] : templates[template].components
+        for (let i = 0;i < components.length;i++) {
+            /**
+             * Get component types.
+             */
+            const componentTypes = components[i].type
+            for (let type in componentTypes) {
+                /**
+                 * Get package.
+                 */
+                const package = require('./' + getComponentPackagePath({
+                    name: components[i].name,
+                    type: componentTypes[type]
+                }))
+
+                /**
+                 * Setup SCSS files.
+                 */
+                if (package.style !== undefined) {
+                    /**
+                     * Update with NPM module files.
+                     */
+                    for (let npm in package.style.npm) {
+                        if (Global.npm.scss.indexOf(package.style.npm[npm]) === -1) {
+                            Global.npm.scss.push(package.style.npm[npm])
+                        }
+                    }
+
+                    /**
+                     * Update with main style.
+                     */
+                    for (let style in package.style.main) {
+                        const stylePath = getComponentPath({
+                            name: components[i].name,
+                            type: componentTypes[type]
+                        }) + '/scss/' + package.style.main[style]
+                        if (Global.components.scss.indexOf(stylePath) === -1) {
+                            Global.components.scss.push(stylePath)
+                        }
+                    }
+                }
+
+                /**
+                 * Setup JS files.
+                 */
+                if (package.script !== undefined) {
+                    /**
+                     * Update with NPM module files.
+                     */
+                    for (let npm in package.script.npm) {
+                        if (Global.npm.js.indexOf(package.script.npm[npm]) === -1) {
+                            Global.npm.js.push(package.script.npm[npm])
+                        }
+                    }
+
+                    /**
+                     * Update with main script.
+                     */
+                    for (let script in package.script.main) {
+                        const scriptPath = getComponentPath({
+                            name: components[i].name,
+                            type: componentTypes[type]
+                        }) + '/js/' + package.script.main[script]
+                        if (Global.components.js.indexOf(scriptPath) === -1) {
+                            Global.components.js.push(scriptPath)
+                        }
+                    }
+                }
+
+                /**
+                 * Update with helpers files.
+                 */
+                for (let helper in package.helpers) {
+                    /**
+                     * Define helper type.
+                     */
+                    const helperTypes = package.helpers[helper].type
+                    for (let type in helperTypes) {
+                        /**
+                         * Get helper package.
+                         */
+                        const helperPackage = require('./' + getHelperPackagePath({
+                            name: package.helpers[helper].name,
+                            type: helperTypes[type]
+                        }))
+
+                        /**
+                         * Setup SCSS files.
+                         */
+                        if (helperPackage.style !== undefined) {
+                            /**
+                             * Update with NPM module files.
+                             */
+                            for (let npm in helperPackage.style.npm) {
+                                if (Global.npm.scss.indexOf(helperPackage.style.npm[npm]) === -1) {
+                                    Global.npm.scss.push(helperPackage.style.npm[npm])
+                                }
+                            }
+
+                            /**
+                             * Update with main style.
+                             */
+                            for (let style in helperPackage.style.main) {
+                                const stylePath = getHelperPath({
+                                    name: package.helpers[helper].name,
+                                    type: helperTypes[type]
+                                }) + '/scss/' + helperPackage.style.main[style]
+                                if (Global.helpers.scss.indexOf(stylePath) === -1) {
+                                    Global.helpers.scss.push(stylePath)
+                                }
+                            }
+                        }
+                    
+
+                        /**
+                         * Setup JS files.
+                         */
+                        if (helperPackage.script !== undefined) {
+                            /**
+                             * Update with NPM module files.
+                             */
+                            for (let npm in helperPackage.script.npm) {
+                                if (Global.npm.js.indexOf(helperPackage.script.npm[npm]) === -1) {
+                                    Global.npm.js.push(helperPackage.script.npm[npm])
+                                }
+                            }
+
+                            /**
+                             * Update with main style.
+                             */
+                            for (let script in helperPackage.script.main) {
+                                const scriptPath = getHelperPath({
+                                    name: package.helpers[helper].name,
+                                    type: helperTypes[type]
+                                }) + '/js/' + helperPackage.script.main[script]
+                                if (Global.helpers.js.indexOf(scriptPath) === -1) {
+                                    Global.helpers.js.push(scriptPath)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /**
+         * Setup modules.
+         */
+        const modules = templates[template].modules === undefined ? [] : templates[template].modules
+        for (let x = 0;x < modules.length;x++) {
+            /**
+             * Get module package.
+             */
+            const package = require('./' + getModulePackagePath(modules[x]))
+
+            /**
+             * Setup SCSS files.
+             */
+            if (package.style !== undefined) {
+                /**
+                 * Update with NPM module files.
+                 */
+                if (package.style.npm !== undefined) {
+                    for (let npm in package.style.npm) {
+                        if (Global.npm.scss.indexOf(package.style.npm[npm]) === -1) {
+                            Global.npm.scss.push(package.style.npm[npm])
+                        }
+                    }
+                }
+
+                /**
+                 * Update with main style.
+                 */
+                if (package.style.main !== undefined) {
+                    for (let style in package.style.main) {
+                        const stylePath = getModulePath(modules[x]) + '/scss/' + package.style.main[style]
+                        if (Global.modules.scss.indexOf(stylePath) === -1) {
+                            Global.modules.scss.push(stylePath)
+                        }
+                    }
                 }
             }
 
-            // 01. setup npm - JS
-            npms = package.scripts.npm === undefined ? [] : package.scripts.npm
-            for (let i = 0;i < npms.length;i++) {
-                if (JS_NPM.indexOf(npms[i]) === -1) {
-                    JS_NPM.push(npms[i])
+            /**
+             * Setup JS files.
+             */
+            if (package.script !== undefined) {
+                /**
+                 * Update with NPM module files.
+                 */
+                if (package.script.npm !== undefined) {
+                    for (let npm in package.script.npm) {
+                        if (Global.npm.js.indexOf(package.script.npm[npm]) === -1) {
+                            Global.npm.js.push(package.script.npm[npm])
+                        }
+                    }
+                }
+
+                /**
+                 * Update with main script.
+                 */
+                if (package.script.main !== undefined) {
+                    for (let script in package.script.main) {
+                        const scriptPath = getModulePath(modules[x]) + '/js/' + package.script.main[script]
+                        if (Global.modules.js.indexOf(scriptPath) === -1) {
+                            Global.modules.js.push(scriptPath)
+                        }
+                    }
                 }
             }
 
-            // 02. setup helpers
-            let helpers = package.helpers === undefined ? [] : package.helpers
+            /**
+             * Setup helpers.
+             */
+            const helpers = package.helpers === undefined ? [] : package.helpers
             for (let i = 0;i < helpers.length;i++) {
-                for (let j = 0;j < helpers.length;j++) {
-                    // loop helper types
-                    for (let l = 0;l < helpers[j].type.length;l++) {
-                        // define helper path
-                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type[l]
+                /**
+                 * Define helper type.
+                 */
+                const helperTypes = helpers[i].type
+                for (let type in helperTypes) {
+                    /**
+                     * Get helper package.
+                     */
+                    const helperPackage = require('./' + getHelperPackagePath({
+                        name: helpers[i].name,
+                        type: helperTypes[type]
+                    }))
 
-                        // define helper package
-                        const helperPackage = require('./' + helperPath + '/package.js')
-
-                        // define helper npm - styles
-                        let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
-                        for (let k = 0;k < styles.length;k++) {
-                            if (SCSS_NPM.indexOf(styles[k]) === -1) {
-                                SCSS_NPM.push(styles[k])
+                    /**
+                     * Setup SCSS files.
+                     */
+                    if (helperPackage.style !== undefined) {
+                        /**
+                         * Update with NPM module files.
+                         */
+                        if (helperPackage.style.npm !== undefined) {
+                            for (let npm in helperPackage.style.npm) {
+                                if (Global.npm.scss.indexOf(helperPackage.style.npm[npm]) === -1) {
+                                    Global.npm.scss.push(helperPackage.style.npm[npm])
+                                }
                             }
                         }
 
-                        // define helper main - styles
-                        styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
-                        for (let k = 0;k < styles.length;k++) {
-                            const helperStylePath = helperPath + '/scss/' + styles[k]
-                            if (SCSS_helpers.indexOf(helperStylePath) === -1) {
-                                SCSS_helpers.push(helperStylePath)
+                        /**
+                         * Update with main style.
+                         */
+                        if (helperPackage.style.main !== undefined) {
+                            for (let style in helperPackage.style.main) {
+                                const stylePath = getHelperPath({
+                                    name: helpers[i].name,
+                                    type: helperTypes[type]
+                                }) + '/scss/' + helperPackage.style.main[style]
+                                if (Global.helpers.scss.indexOf(stylePath) === -1) {
+                                    Global.helpers.scss.push(stylePath)
+                                }
+                            }
+                        }
+                    }
+
+                    /**
+                     * Setup JS files.
+                     */
+                    if (helperPackage.script !== undefined) {
+                        /**
+                         * Update with NPM module files.
+                         */
+                        if (helperPackage.script.npm !== undefined) {
+                            for (let npm in helperPackage.script.npm) {
+                                if (Global.npm.js.indexOf(helperPackage.script.npm[npm]) === -1) {
+                                    Global.npm.js.push(helperPackage.script.npm[npm])
+                                }
                             }
                         }
 
-                        // define helper npm - scripts
-                        let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
-                        for (let k = 0;k < scripts.length;k++) {
-                            if (JS_NPM.indexOf(scripts[k]) === -1) {
-                                JS_NPM.push(scripts[k])
-                            }
-                        }
-
-                        // define helper main - scripts
-                        scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
-                        for (let k = 0;k < scripts.length;k++) {
-                            const helperScriptPath = helperPath + '/js/' + scripts[k]
-                            if (JS_helpers.indexOf(helperScriptPath) === -1) {
-                                JS_helpers.push(helperScriptPath)
+                        /**
+                         * Update with main script.
+                         */
+                        if (helperPackage.script.main !== undefined) {
+                            for (let script in helperPackage.script.main) {
+                                const scriptPath = getHelperPath({
+                                    name: helpers[i].name,
+                                    type: helperTypes[type]
+                                }) + '/js/' + helperPackage.script.main[script]
+                                if (Global.helpers.js.indexOf(scriptPath) === -1) {
+                                    Global.helpers.js.push(scriptPath)
+                                }
                             }
                         }
                     }
                 }
             }
 
-            // 03. setup components
-            let components = []
-            if (modules[index].components !== undefined) {
-                components = modules[index].components
-            } else {
-                components = package.components
+            /**
+             * Setup components.
+             */
+            let components = package.components === undefined ? [] : package.components
+            if (modules[x].components !== undefined) {
+                components = modules[x].components
             }
             for (let i = 0;i < components.length;i++) {
-                 // get component type
-                let types = components[i].type
+                /**
+                 * Get component types.
+                 */
+                const componentTypes = components[i].type
+                for (let type in componentTypes) {
+                    /**
+                     * Get component package.
+                     */
+                    const componentPackage = require('./' + getComponentPackagePath({
+                        name: components[i].name,
+                        type: componentTypes[type]
+                    }))
 
-                for (let a = 0;a < types.length;a++) {
-                    // define component path
-                    const subpath = config.templates.components.path + '/' + components[i].name + '/' + types[a]
-
-                    // get component package
-                    const subpackage = require('./' + subpath + '/package.js')
-
-                    // 03.1. setup component npm - SCSS
-                    let npms = subpackage.styles.npm === undefined ? [] : subpackage.styles.npm
-                    for (let j = 0;j < npms.length;j++) {
-                        if (SCSS_NPM.indexOf(npms[j]) === -1) {
-                            SCSS_NPM.push(npms[j])
-                        }
-                    }
-
-                    // 03.1. setup component npm - JS
-                    npms = subpackage.scripts.npm === undefined ? [] : subpackage.scripts.npm
-                    for (let j = 0;j < npms.length;j++) {
-                        if (JS_NPM.indexOf(npms[j]) === -1) {
-                            JS_NPM.push(npms[j])
-                        }
-                    }
-
-                    // 03.2. setup component helpers
-                    let helpers = subpackage.helpers === undefined ? [] : subpackage.helpers
-                    for (let j = 0;j < helpers.length;j++) {
-                        // define helper path
-                        const helperPath = config.templates.helpers.path + '/' + helpers[j].name + '/' + helpers[j].type
-    
-                        // define helper package
-                        const helperPackage = require('./' + helperPath + '/package.js')
-    
-                        // define helper npm - styles
-                        let styles = helperPackage.styles.npm === undefined ? [] : helperPackage.styles.npm
-                        for (let k = 0;k < styles.length;k++) {
-                            if (SCSS_NPM.indexOf(styles[k]) === -1) {
-                                SCSS_NPM.push(styles[k])
+                    /**
+                     * Setup SCSS files.
+                     */
+                    if (componentPackage.style !== undefined) {
+                        /**
+                         * Update with NPM module files.
+                         */
+                        if (componentPackage.style.npm !== undefined) {
+                            for (let npm in componentPackage.style.npm) {
+                                if (Global.npm.scss.indexOf(componentPackage.style.npm[npm]) === -1) {
+                                    Global.npm.scss.push(componentPackage.style.npm[npm])
+                                }
                             }
                         }
-    
-                        // define helper main - styles
-                        styles = helperPackage.styles.main === undefined ? [] : helperPackage.styles.main
-                        for (let k = 0;k < styles.length;k++) {
-                            const helperStylePath = helperPath + '/scss/' + styles[k]
-                            if (SCSS_helpers.indexOf(helperStylePath) === -1) {
-                                SCSS_helpers.push(helperStylePath)
-                            }
-                        }
-    
-                        // define helper npm - scripts
-                        let scripts = helperPackage.scripts.npm === undefined ? [] : helperPackage.scripts.npm
-                        for (let k = 0;k < scripts.length;k++) {
-                            if (JS_NPM.indexOf(scripts[k]) === -1) {
-                                JS_NPM.push(scripts[k])
-                            }
-                        }
-    
-                        // define helper main - scripts
-                        scripts = helperPackage.scripts.main === undefined ? [] : helperPackage.scripts.main
-                        for (let k = 0;k < scripts.length;k++) {
-                            const helperScriptPath = helperPath + '/js/' + scripts[k]
-                            if (JS_helpers.indexOf(helperScriptPath) === -1) {
-                                JS_helpers.push(helperScriptPath)
+
+                        /**
+                         * Update with main style.
+                         */
+                        if (componentPackage.style.main !== undefined) {
+                            for (let style in componentPackage.style.main) {
+                                const stylePath = getComponentPath({
+                                    name: components[i].name,
+                                    type: componentTypes[type]
+                                }) + '/scss/' + componentPackage.style.main[style]
+                                if (Global.components.scss.indexOf(stylePath) === -1) {
+                                    Global.components.scss.push(stylePath)
+                                }
                             }
                         }
                     }
 
-                    // 04. setup component assets - SCSS
-                    let assets = subpackage.styles.main === undefined ? [] : subpackage.styles.main
-                    for (let j = 0;j < assets.length;j++) {
-                        // define asset path
-                        const assetPath = subpath + '/scss/' + assets[j]
-                        if (SCSS_assets.indexOf(assetPath) === -1) {
-                            SCSS_assets.push(assetPath)
+                    /**
+                     * Setup JS files.
+                     */
+                    if (componentPackage.script !== undefined) {
+                        /**
+                         * Update with NPM module files.
+                         */
+                        if (componentPackage.script.npm !== undefined) {
+                            for (let npm in componentPackage.script.npm) {
+                                if (Global.npm.js.indexOf(componentPackage.script.npm[npm]) === -1) {
+                                    Global.npm.js.push(componentPackage.script.npm[npm])
+                                }
+                            }
+                        }
+
+                        /**
+                         * Update with main script.
+                         */
+                        if (componentPackage.script.main !== undefined) {
+                            for (let script in componentPackage.script.main) {
+                                const scriptPath = getComponentPath({
+                                    name: components[i].name,
+                                    type: componentTypes[type]
+                                }) + '/js/' + componentPackage.script.main[script]
+                                if (Global.components.js.indexOf(scriptPath) === -1) {
+                                    Global.components.js.push(scriptPath)
+                                }
+                            }
                         }
                     }
 
-                    // 04. setup component assets - JS
-                    assets = subpackage.scripts.main === undefined ? [] : subpackage.scripts.main
-                    for (let j = 0;j < assets.length;j++) {
-                        // define asset path
-                        const assetPath = subpath + '/js/' + assets[j]
-                        if (JS_assets.indexOf(assetPath) === -1) {
-                            JS_assets.push(assetPath)
+                    /**
+                     * Update with helpers files.
+                     */
+                    if (componentPackage.helpers !== undefined) {
+                        for (let helper in componentPackage.helpers) {
+                            /**
+                             * Define helper type.
+                             */
+                            const helperTypes = componentPackage.helpers[helper].type
+                            for (let type in helperTypes) {
+                                /**
+                                 * Get helper package.
+                                 */
+                                const helperPackage = require('./' + getHelperPackagePath({
+                                    name: componentPackage.helpers[helper].name,
+                                    type: helperTypes[type]
+                                }))
+
+                                /**
+                                 * Setup SCSS files.
+                                 */
+                                if (helperPackage.style !== undefined) {
+                                    /**
+                                     * Update with NPM module files.
+                                     */
+                                    if (helperPackage.style.npm !== undefined) {
+                                        for (let npm in helperPackage.style.npm) {
+                                            if (Global.npm.scss.indexOf(helperPackage.style.npm[npm]) === -1) {
+                                                Global.npm.scss.push(helperPackage.style.npm[npm])
+                                            }
+                                        }
+                                    }
+
+                                    /**
+                                     * Update with main style.
+                                     */
+                                    if (helperPackage.style.main !== undefined) {
+                                        for (let style in helperPackage.style.main) {
+                                            const stylePath = getHelperPath({
+                                                name: componentPackage.helpers[helper].name,
+                                                type: helperTypes[type]
+                                            }) + '/scss/' + helperPackage.style.main[style]
+                                            if (Global.helpers.scss.indexOf(stylePath) === -1) {
+                                                Global.helpers.scss.push(stylePath)
+                                            }
+                                        }
+                                    }
+                                }
+
+                                /**
+                                 * Setup JS files.
+                                 */
+                                if (helperPackage.script !== undefined) {
+                                    /**
+                                     * Update with NPM module files.
+                                     */
+                                    if (helperPackage.script.npm !== undefined) {
+                                        for (let npm in helperPackage.script.npm) {
+                                            if (Global.npm.js.indexOf(helperPackage.script.npm[npm]) === -1) {
+                                                Global.npm.js.push(helperPackage.script.npm[npm])
+                                            }
+                                        }
+                                    }
+
+                                    /**
+                                     * Update with main style.
+                                     */
+                                    if (helperPackage.script.main !== undefined) {
+                                        for (let script in helperPackage.script.main) {
+                                            const scriptPath = getHelperPath({
+                                                name: componentPackage.helpers[helper].name,
+                                                type: helperTypes[type]
+                                            }) + '/js/' + helperPackage.script.main[script]
+                                            if (Global.helpers.js.indexOf(scriptPath) === -1) {
+                                                Global.helpers.js.push(scriptPath)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
+        }
 
-            // 04. setup assets - SCSS
-            let assets = package.styles.main === undefined ? [] : package.styles.main
-            for (let i = 0;i < assets.length;i++) {
-                SCSS_assets.push(path + '/scss/' + assets[i])
+        /**
+         * Append external script.
+         */
+        if (templates[template].external !== undefined) {
+            /**
+             * Append scss.
+             */
+            if (templates[template].external.scss !== undefined) {
+                for (let style in templates[template].external.scss) {
+                    Global.external.scss.push('../' + client + '/' + templates[template].external.scss[style])
+                }
             }
 
-            // 04. setup assets - JS
-            assets = package.scripts.main === undefined ? [] : package.scripts.main
-            for (let i = 0;i < assets.length;i++) {
-                JS_assets.push(path + '/js/' + assets[i])
+            /**
+             * Append js.
+             */
+            if (templates[template].external.js !== undefined) {
+                for (let script in templates[template].external.js) {
+                    Global.external.js.push('../' + client + '/' + templates[template].external.js[script])
+                }
             }
         }
 
-        // define compiled destination
-        const compiled = config.compiler.path.compiled + '/' + ID
+        /**
+         * Define core.
+         * @var {Object}
+         */
+        let Core = clientConfig.core === undefined ? config.core : clientConfig.core
+            Core = templates[template].core === undefined ? Core : templates[template].core
 
-        // define destination
-        const destination = config.compiler.path.assets + '/' + ID
+        /**
+         * Define core.
+         */
+        if (JSON.stringify(Core) === '{}') {
+            Global.core.scss = config.compiler.scss
+            Global.core.js   = config.compiler.js
+        } else {
+            /**
+             * Core - SCSS.
+             */
+            Global.core.scss = config.compiler.scss
+            if (Core.scss !== undefined) {
+                Global.core.scss = Global.core.scss.concat(Core.scss)
+            }
 
-        // load modules
+            /**
+             * Core - JS.
+             */
+            Global.core.js = config.compiler.js
+            if (Core.js !== undefined) {
+                Global.core.js = Global.core.js.concat(Core.js)
+            }
+        }
+
+        /**
+         * Concat script - SCSS.
+         */
+        const SCSS = [].concat(
+            Global.core.scss,
+            Global.npm.scss,
+            Global.helpers.scss,
+            Global.components.scss,
+            Global.modules.scss,
+            Global.external.scss
+        )
+
+        /**
+         * Concat script - JS.
+         */
+        const JS = [].concat(
+            Global.core.js,
+            Global.npm.js,
+            Global.helpers.js,
+            Global.components.js,
+            Global.modules.js,
+            Global.external.js
+        )
+
+        /**
+         * Create grunt config.
+         */
         grunt.loadNpmTasks('grunt-contrib-concat')
         grunt.loadNpmTasks('grunt-contrib-uglify')
         grunt.loadNpmTasks('grunt-contrib-sass')
         grunt.loadNpmTasks('grunt-contrib-cssmin')
-
-        // setup grunt config
         grunt.initConfig({
             concat: {
                 scss: {
-                    src: SCSS_NPM.concat(SCSS, SCSS_helpers, SCSS_assets),
-                    dest: compiled + '/scss/' + template + '.scss'
+                    src: SCSS,
+                    dest: config.path.compiler.compiled + '/' + client + '/' + template + '/scss/' + 'style.scss'
                 },
                 js: {
-                    src: JS_NPM.concat(JS, JS_helpers, JS_assets),
-                    dest: compiled + '/js/' + template + '.js'
+                    src: JS,
+                    dest: config.path.compiler.compiled + '/' + client + '/' + template + '/js/' + 'script.js'
                 }
             },
             sass: {
                 main: {
                     files: [{
                         expand: true,
-                        cwd: compiled + '/scss',
-                        src: template + '.scss',
-                        dest: destination + '/css',
+                        cwd: config.path.compiler.compiled + '/' + client + '/' + template + '/scss',
+                        src: 'style.scss',
+                        dest: config.path.compiler.assets + '/' + client + '/' + template + '/css',
                         ext: '.css'
                     }]
                 }
@@ -555,9 +1119,9 @@ module.exports = (grunt) => {
                 main: {
                     files: [{
                         expand: true,
-                        cwd: destination + '/css',
-                        src: template + '.css',
-                        dest: destination + '/css',
+                        cwd: config.path.compiler.assets + '/' + client + '/' + template + '/css',
+                        src: 'style.css',
+                        dest: config.path.compiler.assets + '/' + client + '/' + template + '/css',
                         ext: '.css'
                     }]
                 }
@@ -566,50 +1130,199 @@ module.exports = (grunt) => {
                 main: {
                     files: [{
                         expand: true,
-                        cwd: compiled + '/js',
-                        src: template + '.js',
-                        dest: destination + '/js'
+                        cwd: config.path.compiler.compiled + '/' + client + '/' + template + '/js',
+                        src: 'script.js',
+                        dest: config.path.compiler.assets + '/' + client + '/' + template + '/js'
                     }]
                 }
             }
         })
 
-        // run task
+        /**
+         * Run tasks.
+         */
         grunt.task.run([
             'concat', 'sass', 'cssmin', 'uglify'
         ])
     })
 
     /**
-     * Install client template.
-     * @param {String} ID Client ID.
-     * @since 1.0.0
+     * Compile templates.
+     * @param {String} client
+     * @param {String} template
+     * @since 0.0.1
      */
-    grunt.registerTask('install-client', 'Install client templates.', (ID) => {
-        if (ID === undefined) return
+    grunt.registerTask('compile-templates', 'Compiling templates.', (client, template) => {
+        if (client === undefined) return
 
-        // get client config
-        const client = require('./settings/clients/' + ID)
+        /**
+         * Get config.
+         */
+        const clientConfig = require('./settings/clients/' + client)
 
-        // define templates
-        const templates = client.templates
-
-        // loop templates
+        /**
+         * Setup templates.
+         */
+        const templates = clientConfig.templates
         for (let index in templates) {
+            /**
+             * If want to install specific templates.
+             */
+            if (template !== undefined && template !== index) continue
 
-            // run task
-            grunt.task.run('compile-template:' + ID + ':' + index)
+            /**
+             * Compiling single template.
+             */
+            grunt.task.run('compile-template:' + client + ':' + index)
         }
     })
 
     /**
-     * Install client.
-     * @since 1.0.0
+     * Compile code file for each component/module/helper.
+     * @param {String} category -> "module" | "component" | "helper"
+     * @param {String} name
+     * @param {String} type
+     * @since 0.0.1
      */
-    grunt.registerTask('install', 'Install client.', (ID) => {
-        if (ID === undefined) return
+    grunt.registerTask('compile-code', 'Compiling component/module/helper code.', (category, name, type) => {
+        /**
+         * Define config.
+         */
+        const config = require('./settings/config')
 
-        // create task list
-        grunt.task.run(['install-npm:' + ID, 'install-client:' + ID])
+        /**
+         * Define core.
+         */
+        let core = {
+            scss: [],
+            js: []
+        }
+        core.scss = core.scss.concat(config.compiler.scss)
+
+        /**
+         * Determine template items
+         */
+        let path
+        switch (category) {
+            case 'helper':
+                path = config.path.helpers + '/' + name + '/' + type
+                break
+            case 'component':
+                path = config.path.components + '/' + name + '/' + type
+                break
+            case 'module':
+                path = config.path.modules + '/' + name + '/' + type
+                break
+        }
+        if (path === undefined || path === '') return
+
+        /**
+         * Get package.
+         */
+        const package = require('./' + path + '/package')
+
+        /**
+         * Get list of styles.
+         */
+        let styles = []
+        if (package.style !== undefined) {
+            const stylesarr = package.style.main === undefined ? [] : package.style.main
+            for (let i = 0;i < stylesarr.length;i++) {
+                styles.push(path + '/scss/' + stylesarr[i])
+            }
+        }
+
+        /**
+         * Get list of scripts.
+         */
+        let scripts = []
+        if (package.script !== undefined) {
+            const scriptsarr = package.script.main === undefined ? [] : package.script.main
+            for (let i = 0;i < scriptsarr.length;i++) {
+                scripts.push(path + '/js/' + scriptsarr[i])
+            }
+        }
+
+        /**
+         * Create grunt config.
+         */
+        grunt.loadNpmTasks('grunt-contrib-concat')
+        grunt.loadNpmTasks('grunt-contrib-sass')
+        grunt.loadNpmTasks('grunt-contrib-cssmin')
+        grunt.loadNpmTasks('grunt-contrib-uglify')
+        grunt.loadNpmTasks('grunt-contrib-clean')
+        grunt.initConfig({
+            concat: {
+                scss: {
+                    src: core.scss.concat(styles),
+                    dest: path + '/_compiled/scss/style.scss'
+                },
+                js: {
+                    src: scripts,
+                    dest: path + '/_compiled/js/script.js'
+                }
+            },
+            sass: {
+                main: {
+                    files: [{
+                        expand: true,
+                        cwd: path + '/_compiled/scss',
+                        src: 'style.scss',
+                        dest: path + '/_compiled/css',
+                        ext: '.css'
+                    }]
+                }
+            },
+            cssmin: {
+                options: {
+                    level: { 1: { specialComments: 0 } }
+                },
+                main: {
+                    files: [{
+                        expand: true,
+                        cwd: path + '/_compiled/css',
+                        src: 'style.css',
+                        dest: path + '/_compiled/css',
+                        ext: '.css'
+                    }]
+                }
+            },
+            uglify: {
+                main: {
+                    files: [{
+                        expand: true,
+                        cwd: path + '/_compiled/js',
+                        src: 'script.js',
+                        dest: path + '/_compiled/js'
+                    }]
+                }
+            },
+            clean: {
+                main: {
+                    src: [
+                        path + '/_compiled/scss',
+                        path + '/_compiled/css/*.map'
+                    ]
+                }
+            }
+        })
+
+        /**
+         * Define task.
+         */
+        let tasks = []
+        if (styles.length > 0) {
+            tasks.push('concat:scss', 'sass', 'cssmin', 'clean')
+        }
+        if (scripts.length > 0) {
+            tasks.push('concat:js', 'uglify')
+        }
+
+        /**
+         * Run task.
+         */
+        if (tasks.length > 0) {
+            grunt.task.run(tasks)
+        }
     })
 }

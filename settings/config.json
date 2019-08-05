@@ -1,0 +1,40 @@
+{
+    "about": {
+        "name": "Lurik",
+        "version": "0.0.1",
+        "author": {
+            "name": "Fachri Riyanto",
+            "email": "fachririyanto@gmail.com",
+            "url": "https://fachririyanto.com",
+            "github": "https://github.com/fachririyanto"
+        },
+        "description": "A configurational framework for creating a modular static web templates.",
+        "github": "https://github.com/fachririyanto/lurik"
+    },
+    "path": {
+        "compiler": {
+            "assets": "assets",
+            "compiled": "assets/_compiled"
+        },
+        "core": "templates/_core",
+        "helpers": "templates/helpers",
+        "components": "templates/components",
+        "modules": "templates/modules",
+        "icons": "templates/icons"
+    },
+    "compiler": {
+        "scss": [
+            "templates/_core/scss/variable.scss",
+            "templates/_core/scss/vendor/css3-mixins.scss"
+        ],
+        "js": []
+    },
+    "core": {
+        "scss": [
+            "templates/_core/scss/style.scss"
+        ],
+        "js": [
+            "templates/_core/js/script.js"
+        ]
+    }
+}

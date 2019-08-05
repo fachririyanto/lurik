@@ -1,0 +1,75 @@
+{
+    "about": {
+        "ID": "lurik",
+        "name": "Lurik",
+        "author": {
+            "name": "Fachri Riyanto",
+            "url": "https://fachririyanto.com",
+            "email": "fachririyanto@gmail.com"
+        }
+    },
+
+    "core": {
+        "scss": [
+            "templates/_core/scss/style.scss"
+        ],
+        "js": [
+            "templates/_core/js/script.js"
+        ],
+        "_comments": [
+            "Overriding core, this affect to all templates."
+        ]
+    },
+
+    "templates": {
+        "home": {
+            "modules": [
+                { "name": "header", "type": "type-1" },
+                { "name": "footer", "type": "type-1" },
+                { "name": "posts", "type": "type-1" },
+                {
+                    "name": "posts",
+                    "type": "type-2",
+                    "components": [
+                        { "name": "block-header", "type": [ "type-1" ] }
+                    ]
+                }
+            ],
+            "_comments": [
+                "Home template configuration."
+            ]
+        },
+
+        "global": {
+            "components": [],
+            "modules": [],
+            "_comments": [
+                "If you just want to get a style and script of the core.",
+                "@example I create a global template as a name of style and script file."
+            ]
+        },
+
+        "other": {
+            "core": {
+                "scss": [
+                    "templates/_core/scss/vendor/css3-mixins.scss",
+                    "templates/_core/scss/variable.scss"
+                ],
+                "js": []
+            },
+            "components": [
+                { "name": "post", "type": ["type-1"] }
+            ],
+            "modules": [
+                { "name": "header", "type": "type-1" },
+                { "name": "footer", "type": "type-1" },
+                { "name": "posts", "type": "type-1" },
+                { "name": "posts", "type": "type-2" }
+            ],
+            "_comments": [
+                "Core overriding for a specific template.",
+                "You can reset one of scss or js value or both of them."
+            ]
+        }
+    }
+}

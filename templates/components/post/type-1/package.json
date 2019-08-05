@@ -1,0 +1,22 @@
+{
+    "about": {
+        "ID": "post",
+        "name": "Post",
+        "description": "",
+        "author": {
+            "name": "Fachri Riyanto",
+            "url": "https://fachririyanto.com",
+            "email": "fachririyanto@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "helpers": [
+        { "name": "position-layout", "type": ["type-1"] },
+        { "name": "background-cover", "type": ["type-1"] }
+    ],
+    "style": {
+        "main": [
+            "style.scss"
+        ]
+    }
+}
