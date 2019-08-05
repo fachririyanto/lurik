@@ -48,6 +48,8 @@ As an example, you can type:\
 
 Because we already create an example template called "lurik". For the configuration, you can see file “[settings/clients/lurik.json](https://github.com/fachririyanto/lurik/blob/master/settings/clients/lurik.json)”.
 
+After you installed, open "index.html" file to see the demo of the template.
+
 -----
 
 **02. Main Command**
