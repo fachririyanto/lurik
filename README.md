@@ -4,7 +4,9 @@
 -----
 
 ### What is Lurik?
-**Lurik** is a configurational framework using JavaScript for building a modular static web templates. Lurik helped me build a modular web templates based on components and modules. Lurik is reusable and make it posible to load a script what page need, that make your site faster. Currently, Lurik is used at BINUS University for building a CSS Framework called BINUS-UI.
+**Lurik** is a configurational framework using JavaScript for building a modular static web templates. Lurik helped you build a modular web templates based on a components and a modules. Lurik is reusable and make it posible to load just a scripts or styles what a page need, thats make your site more faster.
+
+Fyi, currently Lurik is used at BINUS University for building a CSS Framework called BINUS-UI.
 
 
 ### Lurik Elements
