@@ -4,17 +4,14 @@
 -----
 
 ### What is Lurik?
-**Lurik** adalah framework berbasis konfigurasi dengan bahasa JavaScript yang digunakan untuk membuat website statis. Lurik ini adalah hasil riset saya di BINUS University yang bertujuan agar template-template yang sudah dibuat dapat digunakan kembali dengan mudah, dibuat secara modular (bongkar-pasang).
-
-Selain itu, dengan Lurik, script yang diload/didownload pada setiap template hanya yang dibutuhkan oleh template tersebut saja. Sehingga load website akan lebih cepat.
-
-Di BINUS University, sistem Lurik sudah dikembangkan dalam bentuk WordPress Theme untuk pengembangan website-website yang ada di BINUS. Salah satu contoh yang sudah menggunakan sistem Lurik adalah [Sokrates.id](http://sokrates.id).
+**Lurik** is a configurational framework using JavaScript for building a modular static web templates. Lurik helped me build a modular web templates based on components and modules. Lurik is reusable and make it posible to load a script what page need, that make your site faster. Currently, Lurik used at BINUS for build a CSS Framework called BINUS-UI.
 
 
 ### Lurik Core
-Lurik terdiri dari 4 bagian yaitu *Core*, *Helpers*, *Components*, dan *Modules*.
+Lurik has four fundamental elements, its *Core*, *Helpers*, *Components*, and *Modules*.
 
 - **Core**\
+Like any other frameworks or apps, Lurik has a core. In Lurik, core is like Twitter Bootstrap, 
 Bisa dikatakan ini adalah kode-kode yang (mungkin) harus selalu ada di setiap halaman website yang akan dijadikan kode dasar pembuatan website. Contohnya, *Twitter Bootstrap*, *Foundation*, *jQuery*, *CSS Normalize* dan sebagainya.
 
 - **Helpers**\
@@ -48,26 +45,29 @@ Sebelum install Lurik, pastikan Anda sudah menginstall:
 Buka terminal dan arahkan ke folder Lurik dan ketik:\
 *npm install*
 
-Lalu install template dengan mengetik:\
-*grunt install:client-name*
+Lalu ketik kode berikut untuk menginstall template:\
+*grunt compile:client-name*
 
-Sebagai contoh, saya ketik:\
-*grunt install:starter*
+Sebagai contoh, Anda bisa ketik:\
+*grunt compile:lurik*
 
-Karena Lurik sudah menyiapkan satu template sebagai contoh, yaitu starter. Untuk konfigurasinya bisa dilihat pada file “settings/clients/starter.js”.
+Karena Lurik sudah menyiapkan satu template sebagai contoh dengan nama "lurik". Untuk konfigurasinya bisa dilihat pada file “settings/clients/lurik.json”.
 
 -----
 
 **02. Main Command**
 
 Untuk menginstall client pertama kali, ketik:\
-*grunt install:client-name*
+*grunt compile:client-name*
 
 Untuk mendownload NPM module yang akan digunakan oleh components atau modules, ketik:\
-*grunt install-npm:client-name*
+*grunt compile-npm:client-name*
 
 Jika hanya ingin meng-compile script atau style klien, ketik:\
-*grunt install-client:client-name*
+*grunt compile-templates:client-name*
+
+Jika hanya ingin meng-compile icon yang digunakan oleh klien, ketik:\
+*grunt compile-icons:client-name*
 
 ------
 
